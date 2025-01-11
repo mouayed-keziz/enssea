@@ -1,0 +1,86 @@
+@import "/vendor/filament/filament/resources/css/theme.css";
+
+@config 'tailwind.config.js';
+
+/*----------------------- COLORS STUFF -----------------------------*/
+.fi-sidebar-nav {
+    @apply bg-white dark:bg-gray-900 shadow-sm ring-1 ring-gray-950/5  dark:ring-white/10 my-1 rounded-sm;
+}
+.fi-panel-dashboard {
+    @apply bg-[#eceff2] dark:bg-[#000000] !important;
+}
+.fi-layout {
+    @apply bg-[#efeff4] dark:bg-[#000000];
+}
+/* Add proper styling for the progress bar container */
+/* .fi-wi-stats-overview-stat .bg-gray-200 {
+    @apply mr-0 mt-8;
+} */
+
+/*----------------------- TABLES AND ROWS STUFF -----------------------------*/
+/* .fi-ta-table > thead > tr {
+    @apply divide-x divide-gray-200 dark:divide-white/5;
+}
+.fi-ta-row {
+    @apply divide-x divide-gray-200 dark:divide-white/5;
+} */
+
+/* .fi-ta-table > tbody {
+    @apply divide-none
+} */
+
+.fi-ta-text {
+    @apply py-1;
+}
+
+.fi-ta-table > .whitesoace-nowrap {
+    @apply py-1;
+}
+
+.fi-ta-cell > div:has(.flex) {
+    @apply py-1;
+}
+
+/*----------------------- SLIM SCROLLBAR -----------------------------*/
+/* @media (min-width: 768px) {
+    ::-webkit-scrollbar {
+        height: 5px;
+        width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #e5e7eb;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #c9cbcd;
+    }
+
+    .dark ::-webkit-scrollbar-track {
+        background: #101215;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+        background: #1f2126;
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+        background: #1a1d21;
+    }
+
+    @supports (-moz-appearance: none) {
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #d1d5db #e5e7eb;
+        }
+
+        .dark,
+        .dark * {
+            scrollbar-color: #1f2126 #101215;
+        }
+    }
+} */
