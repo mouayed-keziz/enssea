@@ -24,10 +24,10 @@
 .fi-ta-row {
     @apply divide-x divide-gray-200 dark:divide-white/5;
 } */
-
-/* .fi-ta-table > tbody {
-    @apply divide-none
-} */
+/* 
+.fi-ta-table > tbody {
+    @apply divide-none;
+}
 
 .fi-ta-text {
     @apply py-1;
@@ -39,7 +39,7 @@
 
 .fi-ta-cell > div:has(.flex) {
     @apply py-1;
-}
+} */
 
 /*----------------------- SLIM SCROLLBAR -----------------------------*/
 /* @media (min-width: 768px) {
