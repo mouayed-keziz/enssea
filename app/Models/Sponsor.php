@@ -28,4 +28,8 @@ class Sponsor extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl('sponsor_logo');
     }
+    public function getRecordTitleAttribute(): string
+    {
+        return "Sponsor: {$this->name}";
+    }
 }

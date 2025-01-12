@@ -34,4 +34,8 @@ class Club extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl('club_logo');
     }
+    public function getRecordTitleAttribute(): string
+    {
+        return "Club: {$this->name}";
+    }
 }

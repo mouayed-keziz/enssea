@@ -30,9 +30,16 @@ class SponsorResource extends Resource
     protected static ?string $navigationLabel = 'Sponsors';
     protected static ?string $modelLabel = 'Sponsor';
     protected static ?string $pluralLabel = 'Sponsors';
+    protected static ?string $recordTitleAttribute = 'recordTitle';
 
     protected static ?int $navigationSort = Sidebar::SPONSOR['sort'];
     protected static ?string $navigationGroup = Sidebar::SPONSOR['group'];
+
+    protected static bool $isGloballySearchable = true;
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name']; // Add columns you want to search
+    }
 
     public static function form(Form $form): Form
     {
@@ -87,6 +94,7 @@ class SponsorResource extends Resource
                 TextColumn::make('deleted_at')
                     ->label('Supprimé le')
                     ->dateTime('d/m/Y H:i')
+                    ->placeholder('Non supprimé')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

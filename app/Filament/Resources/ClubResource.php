@@ -31,10 +31,16 @@ class ClubResource extends Resource
     protected static ?string $navigationLabel = 'Clubs';
     protected static ?string $modelLabel = 'Club';
     protected static ?string $pluralLabel = 'Clubs';
+    protected static ?string $recordTitleAttribute = 'recordTitle';
 
     protected static ?int $navigationSort = Sidebar::CLUB['sort'];
     protected static ?string $navigationGroup = Sidebar::CLUB['group'];
 
+    protected static bool $isGloballySearchable = true;
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'description']; // Add columns you want to search
+    }
 
     public static function form(Form $form): Form
     {
@@ -103,6 +109,7 @@ class ClubResource extends Resource
                 TextColumn::make('deleted_at')
                     ->label('Supprimé le')
                     ->dateTime('d/m/Y H:i')
+                    ->placeholder('Non supprimé')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

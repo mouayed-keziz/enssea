@@ -29,4 +29,8 @@ class News extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl('news_cover');
     }
+    public function getRecordTitleAttribute(): string
+    {
+        return "News: {$this->title}";
+    }
 }
