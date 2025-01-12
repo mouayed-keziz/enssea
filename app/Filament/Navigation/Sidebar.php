@@ -13,4 +13,9 @@ class Sidebar
         'sort' => 2,
         'group' => 'Contenu du Site',
     ];
+
+    public const SPONSOR = [
+        'sort' => 3,
+        'group' => 'Contenu du Site',
+    ];
 }

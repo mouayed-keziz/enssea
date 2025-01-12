@@ -12,3 +12,7 @@ Route::get("/news", [ContentController::class, 'getNews'])
 Route::get("/clubs", [ContentController::class, 'getClubs'])
     ->description('Get list of clubs.')
     ->summary("List of clubs");
+
+Route::get('/sponsors', [ContentController::class, 'getSponsors'])
+    ->description('Get list of sponsors.')
+    ->summary('List of sponsors');
