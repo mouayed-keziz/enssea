@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Club;
 use App\Models\News;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        News::factory()->count(10)->create();
+        News::factory()->count(2)->create();
+        Club::factory()->count(5)->create();
     }
 }

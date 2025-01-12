@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Club;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,26 @@ class ContentController extends Controller
                 'title' => $news->title,
                 'content' => $news->content,
                 'cover_image' => $news->cover_image,
+            ];
+        });
+    }
+
+    /**
+     * Display a listing of clubs.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getClubs()
+    {
+        $clubs = Club::all();
+        return $clubs->map(function ($club) {
+            return [
+                'id' => $club->id,
+                'name' => $club->name,
+                'description' => $club->description,
+                'logo' => $club->logo,
+                'website_url' => $club->website_url,
+                'social_media_links' => $club->social_media_links,
             ];
         });
     }
