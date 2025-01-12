@@ -36,7 +36,6 @@ class ContentController extends Controller
     public function getClubs()
     {
         $clubs = Club::all();
-        return $clubs;
         return $clubs->map(function ($club) {
             return [
                 'id' => $club->id,
