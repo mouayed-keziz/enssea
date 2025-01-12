@@ -18,4 +18,9 @@ class Sidebar
         'sort' => 3,
         'group' => 'Contenu du Site',
     ];
+
+    public const PROFESSOR = [
+        'sort' => 4,
+        'group' => 'Platform',
+    ];
 }

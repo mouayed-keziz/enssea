@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Sponsor;
 use App\Models\Club;
 use App\Models\News;
+use App\Models\Professor;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,8 +25,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        // News::factory()->count(2)->create();
-        // Club::factory()->count(5)->create();
-        Sponsor::factory()->count(5)->create();
+        // News::factory()->count(8)->create();
+        Club::factory()->count(1)->create();
+        // Sponsor::factory()->count(3)->create();
+        Professor::factory()->count(1)->create();
     }
 }

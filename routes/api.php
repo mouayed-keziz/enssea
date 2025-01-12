@@ -16,3 +16,8 @@ Route::get("/clubs", [ContentController::class, 'getClubs'])
 Route::get('/sponsors', [ContentController::class, 'getSponsors'])
     ->description('Get list of sponsors.')
     ->summary('List of sponsors');
+
+
+Route::get('/professors', [ContentController::class, 'getProfessors'])
+    ->description('Get list of professors.')
+    ->summary('List of professors');

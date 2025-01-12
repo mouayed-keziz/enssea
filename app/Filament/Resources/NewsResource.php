@@ -72,7 +72,7 @@ class NewsResource extends Resource
                         Forms\Components\Section::make('Image de Couverture')
                             ->schema([
                                 SpatieMediaLibraryFileUpload::make('news_cover')
-                                    ->label('Image de Couverture')
+                                    ->label('')
                                     ->collection('news_cover')
                                     ->image()
                                     ->imageEditor(),
