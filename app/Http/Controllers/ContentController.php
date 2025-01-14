@@ -22,6 +22,7 @@ class ContentController extends Controller
             return [
                 'id' => $news->id,
                 'title' => $news->title,
+                'description' => $news->description,
                 'content' => $news->content,
                 'cover_image' => $news->cover_image,
             ];
@@ -60,6 +61,7 @@ class ContentController extends Controller
             return [
                 'id' => $sponsor->id,
                 'name' => $sponsor->name,
+                'description' => $sponsor->description,
                 'url' => $sponsor->url,
                 'logo' => $sponsor->logo, // Use the accessor to get the logo URL
             ];
