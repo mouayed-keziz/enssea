@@ -64,4 +64,9 @@ class Professor extends Authenticatable implements HasMedia
     {
         return "Professeur: {$this->name}";
     }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
 }

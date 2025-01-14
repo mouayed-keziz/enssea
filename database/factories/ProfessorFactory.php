@@ -37,6 +37,15 @@ class ProfessorFactory extends Factory
         ];
     }
 
+    public function withVideos(int $count = 0)
+    {
+        return $this->afterCreating(function (Professor $professor) use ($count) {
+            \App\Models\Video::factory()->count($count)->create([
+                'professor_id' => $professor->id
+            ]);
+        });
+    }
+
     public function configure()
     {
         return $this->afterCreating(function (Professor $professor) {
