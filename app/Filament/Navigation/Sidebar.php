@@ -19,8 +19,13 @@ class Sidebar
         'group' => 'Contenu du Site',
     ];
 
-    public const PROFESSOR = [
+    public const LANDING_CONTENT = [
         'sort' => 4,
+        'group' => 'Contenu du Site',
+    ];
+
+    public const PROFESSOR = [
+        'sort' => 5,
         'group' => 'plateforme',
     ];
 }
