@@ -1,0 +1,205 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "ENSSAE API Documentation",
+        "description": "api documentation for ENSSEA's website",
+        "termsOfService": "http:\/\/swagger.io\/terms\/",
+        "contact": {
+            "email": "m_keziz@estin.dz"
+        },
+        "license": {
+            "name": "Github",
+            "url": "https:\/\/github.com\/hussein4alaa"
+        },
+        "version": "3.0.7"
+    },
+    "servers": [
+        {
+            "url": "http:\/\/localhost:8000",
+            "description": "production server"
+        }
+    ],
+    "components": {
+        "tags": [
+            {
+                "name": "Content",
+                "description": null
+            }
+        ],
+        "paths": {
+            "\/api\/news": {
+                "get": {
+                    "tags": [
+                        "Content"
+                    ],
+                    "summary": "List of news items",
+                    "description": "Get list of news items.",
+                    "operationId": "_api_news_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/clubs": {
+                "get": {
+                    "tags": [
+                        "Content"
+                    ],
+                    "summary": "List of clubs",
+                    "description": "Get list of clubs.",
+                    "operationId": "_api_clubs_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/sponsors": {
+                "get": {
+                    "tags": [
+                        "Content"
+                    ],
+                    "summary": "List of sponsors",
+                    "description": "Get list of sponsors.",
+                    "operationId": "_api_sponsors_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            },
+            "\/api\/professors": {
+                "get": {
+                    "tags": [
+                        "Content"
+                    ],
+                    "summary": "List of professors",
+                    "description": "Get list of professors.",
+                    "operationId": "_api_professors_GET|HEAD",
+                    "parameters": [],
+                    "responses": {
+                        "200": {
+                            "description": "Successful Operation"
+                        },
+                        "404": {
+                            "description": "Not Found"
+                        }
+                    }
+                }
+            }
+        },
+        "schemas": [],
+        "securitySchemes": {
+            "authorization": {
+                "type": "apiKey",
+                "name": "authorization",
+                "in": "header"
+            },
+            "apiKey1": {
+                "type": "apiKey",
+                "name": "key1",
+                "in": "query"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Content",
+            "description": null
+        }
+    ],
+    "paths": {
+        "\/api\/news": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "List of news items",
+                "description": "Get list of news items.",
+                "operationId": "_api_news_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/clubs": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "List of clubs",
+                "description": "Get list of clubs.",
+                "operationId": "_api_clubs_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/sponsors": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "List of sponsors",
+                "description": "Get list of sponsors.",
+                "operationId": "_api_sponsors_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "\/api\/professors": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "List of professors",
+                "description": "Get list of professors.",
+                "operationId": "_api_professors_GET|HEAD",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    }
+}
