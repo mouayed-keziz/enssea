@@ -37,6 +37,13 @@ class VideoResource extends Resource
         return ['title', 'url'];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('professor_id', Auth::user()->id)->count();
+    }
+
+
+
     public static function form(Form $form): Form
     {
         return $form

@@ -41,6 +41,11 @@ class SponsorResource extends Resource
         return ['name']; // Add columns you want to search
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -82,7 +87,7 @@ class SponsorResource extends Resource
                         Forms\Components\Section::make('Logo du Sponsor')
                             ->schema([
                                 SpatieMediaLibraryFileUpload::make('sponsor_logo')
-                                    ->label('Logo')
+                                    ->label('')
                                     ->collection('sponsor_logo')
                                     ->image()
                                     ->imageEditor(),

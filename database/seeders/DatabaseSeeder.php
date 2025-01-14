@@ -19,19 +19,19 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'admin',
-        //     'email' => 'admin@admin.dev',
-        //     'password' => bcrypt('admin'),
-        // ]);
+        User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@admin.dev',
+            'password' => bcrypt('admin'),
+        ]);
 
         // Create professors with videos and publications
-        Professor::factory()->withVideos(3)->withPublications(2)->create();
-        Professor::factory()->withVideos(5)->withPublications(4)->create();
-        Professor::factory()->withVideos(2)->withPublications(3)->create();
+        // Professor::factory()->withVideos(3)->withPublications(2)->create();
+        // Professor::factory()->withVideos(5)->withPublications(4)->create();
+        // Professor::factory()->withVideos(2)->withPublications(3)->create();
 
-        News::factory()->count(3)->create();
-        Club::factory()->count(3)->create();
-        Sponsor::factory()->count(3)->create();
+        // News::factory()->count(3)->create();
+        // Club::factory()->count(3)->create();
+        // Sponsor::factory()->count(3)->create();
     }
 }

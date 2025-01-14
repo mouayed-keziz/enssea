@@ -4,22 +4,21 @@ namespace App\Filament\Admin\Navigation;
 
 class Sidebar
 {
-    public const NEWS = [
+    public const LANDING_CONTENT = [
         'sort' => 1,
         'group' => 'Contenu du Site',
     ];
-
-    public const CLUB = [
+    public const NEWS = [
         'sort' => 2,
         'group' => 'Contenu du Site',
     ];
 
-    public const SPONSOR = [
+    public const CLUB = [
         'sort' => 3,
         'group' => 'Contenu du Site',
     ];
 
-    public const LANDING_CONTENT = [
+    public const SPONSOR = [
         'sort' => 4,
         'group' => 'Contenu du Site',
     ];

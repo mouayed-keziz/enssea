@@ -42,6 +42,11 @@ class NewsResource extends Resource
         return ['title', 'content']; // Add columns you want to search
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
 
     public static function form(Form $form): Form
     {
