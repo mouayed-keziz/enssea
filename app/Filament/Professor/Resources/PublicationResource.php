@@ -39,7 +39,10 @@ class PublicationResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('professor_id', Auth::user()->id)->count();
+        if (Auth::user()) {
+            return static::getModel()::where('professor_id', Auth::user()->id)->count();
+        }
+        return null;
     }
 
     public static function form(Form $form): Form
