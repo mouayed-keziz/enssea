@@ -15,6 +15,7 @@ class News extends Model implements HasMedia
 
     protected $fillable = [
         'title',
+        'description',
         'content',
         'date',
     ];

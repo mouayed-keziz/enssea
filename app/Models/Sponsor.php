@@ -15,6 +15,7 @@ class Sponsor extends Model implements HasMedia
 
     protected $fillable = [
         'name',
+        'description',
         'url',
     ];
 

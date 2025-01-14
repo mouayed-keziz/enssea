@@ -13,6 +13,7 @@ class NewsFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
+            'description' => $this->faker->sentence,
             'content' => $this->faker->paragraphs(3, true),
             'date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
         ];

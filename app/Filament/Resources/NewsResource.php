@@ -56,10 +56,27 @@ class NewsResource extends Resource
                                     ->label('Titre')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\Textarea::make('content')
-                                    ->label('Contenu')
-                                    ->required()
+                                Forms\Components\Textarea::make('description')
+                                    ->label('Description')
+                                    ->rows(4)
                                     ->maxLength(65535),
+                                Forms\Components\RichEditor::make("content")
+                                    ->label("Contenu")
+                                    ->toolbarButtons([
+                                        'blockquote',
+                                        'bold',
+                                        'bulletList',
+                                        'codeBlock',
+                                        'h2',
+                                        'h3',
+                                        'italic',
+                                        'link',
+                                        'orderedList',
+                                        'redo',
+                                        'strike',
+                                        'underline',
+                                        'undo',
+                                    ]),
                                 Forms\Components\DatePicker::make('date')
                                     ->label('Date')
                                     ->native(false)
@@ -96,8 +113,8 @@ class NewsResource extends Resource
                     ->label('Titre')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('content')
-                    ->label('Contenu')
+                TextColumn::make('description')
+                    ->label('Description')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->limit(50)
                     ->tooltip(function (TextColumn $column): ?string {
@@ -145,8 +162,11 @@ class NewsResource extends Resource
                             ->schema([
                                 TextEntry::make('title')
                                     ->label('Titre'),
-                                TextEntry::make('content')
-                                    ->label('Contenu'),
+                                TextEntry::make('description')
+                                    ->label('Description'),
+                                TextEntry::make("content")
+                                    ->label("Contenu")
+                                    ->markdown(),
                                 TextEntry::make('date')
                                     ->label('Date')
                                     ->date('d/m/Y'),

@@ -13,6 +13,7 @@ class SponsorFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
+            'description' => $this->faker->paragraph,
             'url' => $this->faker->url,
         ];
     }

@@ -27,9 +27,9 @@ class SponsorResource extends Resource
     protected static ?string $model = Sponsor::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
-    protected static ?string $navigationLabel = 'Sponsors';
-    protected static ?string $modelLabel = 'Sponsor';
-    protected static ?string $pluralLabel = 'Sponsors';
+    protected static ?string $navigationLabel = 'Sponsors et Conventions';
+    protected static ?string $modelLabel = 'Sponsor / Convention';
+    protected static ?string $pluralLabel = 'Sponsors et Conventions';
     protected static ?string $recordTitleAttribute = 'recordTitle';
 
     protected static ?int $navigationSort = Sidebar::SPONSOR['sort'];
@@ -54,6 +54,23 @@ class SponsorResource extends Resource
                                     ->label('Nom')
                                     ->required()
                                     ->maxLength(255),
+                                Forms\Components\RichEditor::make('description')
+                                    ->label('Description')
+                                    ->toolbarButtons([
+                                        'blockquote',
+                                        'bold',
+                                        'bulletList',
+                                        'codeBlock',
+                                        'h2',
+                                        'h3',
+                                        'italic',
+                                        'link',
+                                        'orderedList',
+                                        'redo',
+                                        'strike',
+                                        'underline',
+                                        'undo',
+                                    ]),
                                 Forms\Components\TextInput::make('url')
                                     ->label('Site Web')
                                     ->url()
@@ -130,6 +147,9 @@ class SponsorResource extends Resource
                                     ->label('Nom'),
                                 TextEntry::make('url')
                                     ->label('Site Web'),
+                                TextEntry::make('description')
+                                    ->markdown()
+                                    ->label('Description'),
                             ])
                             ->columnSpan(3), // 3/5 width
 
