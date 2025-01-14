@@ -25,14 +25,13 @@ class DatabaseSeeder extends Seeder
         //     'password' => bcrypt('admin'),
         // ]);
 
-        // Create professors with different numbers of videos
-        Professor::factory()->withVideos(3)->create(); // professor with 3 videos
-        Professor::factory()->withVideos(5)->create(); // professor with 5 videos
-        Professor::factory()->withVideos(2)->create(); // professor with 2 videos
+        // Create professors with videos and publications
+        Professor::factory()->withVideos(3)->withPublications(2)->create();
+        Professor::factory()->withVideos(5)->withPublications(4)->create();
+        Professor::factory()->withVideos(2)->withPublications(3)->create();
 
-        // News::factory()->count(3)->create();
-        // Club::factory()->count(3)->create();
-        // Sponsor::factory()->count(3)->create();
-        // Professor::factory()->count(3)->create();
+        News::factory()->count(3)->create();
+        Club::factory()->count(3)->create();
+        Sponsor::factory()->count(3)->create();
     }
 }

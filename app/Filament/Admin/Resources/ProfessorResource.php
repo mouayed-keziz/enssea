@@ -172,7 +172,8 @@ class ProfessorResource extends Resource
                             ->schema([
                                 SpatieMediaLibraryFileUpload::make('cv')
                                     ->label('')
-                                    ->collection('cv') // Use the Spatie media collection
+                                    ->collection('cv')
+                                    ->acceptedFileTypes(['application/pdf'])
                                     ->nullable(),
                             ]),
                     ])

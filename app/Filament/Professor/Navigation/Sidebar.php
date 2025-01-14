@@ -6,6 +6,11 @@ class Sidebar
 {
     public const VIDEO = [
         'sort' => 1,
-        'group' => 'Contenu du Site',
+        'group' => "Mon Contenu",
+    ];
+
+    public const PUBLICATION = [
+        'sort' => 2,
+        'group' => "Mon Contenu",
     ];
 }

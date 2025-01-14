@@ -46,6 +46,15 @@ class ProfessorFactory extends Factory
         });
     }
 
+    public function withPublications(int $count = 0)
+    {
+        return $this->afterCreating(function (Professor $professor) use ($count) {
+            \App\Models\Publication::factory()->count($count)->create([
+                'professor_id' => $professor->id
+            ]);
+        });
+    }
+
     public function configure()
     {
         return $this->afterCreating(function (Professor $professor) {

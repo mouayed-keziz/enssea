@@ -26,6 +26,6 @@ class Sidebar
 
     public const PROFESSOR = [
         'sort' => 5,
-        'group' => 'plateforme',
+        'group' => 'Plateforme',
     ];
 }

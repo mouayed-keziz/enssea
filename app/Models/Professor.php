@@ -47,6 +47,7 @@ class Professor extends Authenticatable implements HasMedia
             ->singleFile();
 
         $this->addMediaCollection('cv')
+            ->acceptsMimeTypes(['application/pdf'])
             ->singleFile();
     }
 
@@ -68,5 +69,10 @@ class Professor extends Authenticatable implements HasMedia
     public function videos()
     {
         return $this->hasMany(Video::class);
+    }
+
+    public function publications()
+    {
+        return $this->hasMany(Publication::class);
     }
 }
