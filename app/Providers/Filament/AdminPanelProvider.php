@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
+
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -18,6 +18,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
+use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -59,6 +61,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
+                GlobalSearchModalPlugin::make()->slideOver(false)->searchItemTree(false),
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(config('app.debug'))
                     ->users([
