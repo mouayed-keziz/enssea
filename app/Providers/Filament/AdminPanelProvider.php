@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandName(config('app.name') . ' (espace admin)')
             ->login()
             ->spa()
             ->colors([

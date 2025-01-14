@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        News::factory()->count(3)->create();
-        Club::factory()->count(3)->create();
-        Sponsor::factory()->count(3)->create();
-        Professor::factory()->count(3)->create();
+        // News::factory()->count(3)->create();
+        // Club::factory()->count(3)->create();
+        // Sponsor::factory()->count(3)->create();
+        // Professor::factory()->count(3)->create();
     }
 }

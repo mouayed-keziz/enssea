@@ -7,11 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Notifications\Notifiable;
 
 class Professor extends Authenticatable implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
-    use SoftDeletes;
+    use HasFactory, InteractsWithMedia, SoftDeletes, Notifiable;
 
     protected $fillable = [
         'name',
@@ -29,12 +29,16 @@ class Professor extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
-    protected $casts = [
-        'social_media' => 'array',
-        'education' => 'array',
-        'experience' => 'array',
-        'skills' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'social_media' => 'array',
+            'education' => 'array',
+            'experience' => 'array',
+            'skills' => 'array',
+            'password' => 'hashed',
+        ];
+    }
 
 
     public function registerMediaCollections(): void

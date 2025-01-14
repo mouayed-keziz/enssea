@@ -63,6 +63,12 @@ class ProfessorResource extends Resource
                                                     ->email()
                                                     ->required()
                                                     ->columnSpan(['md' => 2]),
+                                                TextInput::make('password')
+                                                    ->label('Password')
+                                                    ->password()
+                                                    ->visibleOn("create")
+                                                    ->required()
+                                                    ->columnSpan(['md' => 4]),
                                             ])
                                             ->columns(4),
 

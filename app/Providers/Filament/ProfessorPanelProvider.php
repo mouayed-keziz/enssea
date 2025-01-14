@@ -26,8 +26,10 @@ class ProfessorPanelProvider extends PanelProvider
         return $panel
             ->id('professor')
             ->path('professor')
+            ->brandName(config('app.name') . ' (espace professeur)')
             ->spa()
             ->login()
+            ->authGuard("professor")
             ->colors([
                 'primary' => Color::Violet,
             ])
@@ -55,13 +57,6 @@ class ProfessorPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->plugins([
-                FilamentDeveloperLoginsPlugin::make()
-                    ->enabled(config('app.debug'))
-                    ->users([
-                        'admin' => 'admin@admin.dev',
-                    ])
-            ]);;
+            ]);
     }
 }
