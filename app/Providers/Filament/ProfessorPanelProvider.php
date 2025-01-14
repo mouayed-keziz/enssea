@@ -29,7 +29,7 @@ class ProfessorPanelProvider extends PanelProvider
             ->spa()
             ->login()
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Violet,
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Professor/Resources'), for: 'App\\Filament\\Professor\\Resources')
