@@ -28,7 +28,7 @@ class News extends Model implements HasMedia
 
     public function getCoverImageAttribute()
     {
-        return $this->getFirstMediaUrl('news_cover');
+        return $this->hasMedia('news_cover') ? $this->getFirstMediaUrl('news_cover') : null;
     }
     public function getRecordTitleAttribute(): string
     {

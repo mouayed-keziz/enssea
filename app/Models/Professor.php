@@ -69,7 +69,7 @@ class Professor extends Authenticatable implements HasMedia, FilamentUser, HasAv
 
     public function getProfilePictureAttribute()
     {
-        return $this->getFirstMediaUrl('profile_picture');
+        return $this->hasMedia('profile_picture') ? $this->getFirstMediaUrl('profile_picture') : null;
     }
 
     public function getCvUrlAttribute()

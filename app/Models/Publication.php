@@ -25,6 +25,7 @@ class Publication extends Model implements HasMedia
         'type' => \App\Enums\PublicationType::class,
     ];
 
+
     public function professor(): BelongsTo
     {
         return $this->belongsTo(Professor::class);
@@ -35,5 +36,10 @@ class Publication extends Model implements HasMedia
         $this->addMediaCollection('pdf')
             ->acceptsMimeTypes(['application/pdf'])
             ->singleFile();
+    }
+
+    public function getPdfAttribute()
+    {
+        return $this->hasMedia('pdf') ? $this->getFirstMediaUrl('pdf') : null;
     }
 }

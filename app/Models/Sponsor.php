@@ -27,7 +27,7 @@ class Sponsor extends Model implements HasMedia
 
     public function getLogoAttribute()
     {
-        return $this->getFirstMediaUrl('sponsor_logo');
+        return $this->hasMedia('sponsor_logo') ? $this->getFirstMediaUrl('sponsor_logo') : null;
     }
     public function getRecordTitleAttribute(): string
     {
