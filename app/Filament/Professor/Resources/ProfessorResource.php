@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Professor\Resources;
 
 use App\Filament\Admin\Navigation\Sidebar;
-use App\Filament\Admin\Resources\ProfessorResource\Pages;
+use App\Filament\Professor\Resources\ProfessorResource\Pages;
 use App\Models\Professor;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -14,38 +13,50 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\View;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProfessorResource extends Resource
 {
     protected static ?string $model = Professor::class;
+    protected static bool $shouldRegisterNavigation = false; // Hide from menu
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-    protected static ?string $navigationLabel = 'Professeurs';
-    protected static ?string $modelLabel = 'Professeur';
-    protected static ?string $pluralLabel = 'Professeurs';
-    protected static ?string $recordTitleAttribute = 'recordTitle';
-
-    protected static ?int $navigationSort = Sidebar::PROFESSOR['sort'];
-    protected static ?string $navigationGroup = Sidebar::PROFESSOR['group'];
-
-    protected static bool $isGloballySearchable = true;
-    public static function getGloballySearchableAttributes(): array
+    public static function getSlug(): string
     {
-        return ['name', 'email', 'bio'];
+        return '_';
     }
 
-    public static function getNavigationBadge(): ?string
+    public static function getPages(): array
     {
-        return static::getModel()::count();
+        return [
+            'edit' => Pages\EditProfessor::route('/edit-profile/{record}'),
+        ];
     }
+
+    // protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    // protected static ?string $navigationLabel = 'Professeurs';
+    // protected static ?string $modelLabel = 'Professeur';
+    // protected static ?string $pluralLabel = 'Professeurs';
+    // protected static ?string $recordTitleAttribute = 'recordTitle';
+
+    // protected static ?int $navigationSort = Sidebar::PROFESSOR['sort'];
+    // protected static ?string $navigationGroup = Sidebar::PROFESSOR['group'];
+
+    // protected static bool $isGloballySearchable = true;
+    // public static function getGloballySearchableAttributes(): array
+    // {
+    //     return ['name', 'email', 'bio'];
+    // }
+
+    // public static function getNavigationBadge(): ?string
+    // {
+    //     return static::getModel()::count();
+    // }
 
     public static function form(Form $form): Form
     {
@@ -92,6 +103,7 @@ class ProfessorResource extends Resource
                                             ->label('Photo de profil')
                                             ->collection('profile_picture') // Use the Spatie media collection
                                             ->image()
+                                            ->imageEditor()
                                             ->nullable()
                                             ->columnSpanFull(),
                                     ])
@@ -174,13 +186,16 @@ class ProfessorResource extends Resource
                             ]),
 
                         Tabs\Tab::make('CV')
-
                             ->schema([
                                 SpatieMediaLibraryFileUpload::make('cv')
                                     ->label('')
                                     ->collection('cv')
                                     ->acceptedFileTypes(['application/pdf'])
                                     ->nullable(),
+                                Forms\Components\View::make('filament.infolists.components.pdf-viewer')
+                                    ->viewData([
+                                        'collection' => 'cv'
+                                    ]),
                             ]),
                     ])
                     ->columnSpanFull(),
@@ -220,17 +235,5 @@ class ProfessorResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
-    }
-
-
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListProfessors::route('/'),
-            'create' => Pages\CreateProfessor::route('/create'),
-            'view' => Pages\ViewProfessor::route('/{record}'),
-            'edit' => Pages\EditProfessor::route('/{record}/edit'),
-        ];
     }
 }

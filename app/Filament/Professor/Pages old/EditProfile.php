@@ -1,53 +1,42 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Professor\Pages;
 
-use App\Filament\Admin\Navigation\Sidebar;
-use App\Filament\Admin\Resources\ProfessorResource\Pages;
 use App\Models\Professor;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Pages\Page;
+use Filament\Notifications\Notification;
+use Filament\Pages\Concerns\InteractsWithFormActions;
+use Illuminate\Support\Facades\Auth;
 
-class ProfessorResource extends Resource
+class EditProfile extends Page
 {
-    protected static ?string $model = Professor::class;
+    use InteractsWithFormActions;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-    protected static ?string $navigationLabel = 'Professeurs';
-    protected static ?string $modelLabel = 'Professeur';
-    protected static ?string $pluralLabel = 'Professeurs';
-    protected static ?string $recordTitleAttribute = 'recordTitle';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationLabel = 'Mon Profil';
+    protected static ?string $title = 'Mon Profil';
+    protected static string $view = 'filament.professor.pages.edit-profile';  // Changed to use default Filament view
 
-    protected static ?int $navigationSort = Sidebar::PROFESSOR['sort'];
-    protected static ?string $navigationGroup = Sidebar::PROFESSOR['group'];
+    public ?array $data = [];
 
-    protected static bool $isGloballySearchable = true;
-    public static function getGloballySearchableAttributes(): array
+    public function mount(): void
     {
-        return ['name', 'email', 'bio'];
+        /** @var Professor $professor */
+        $professor = Auth::user();
+
+        $this->form->fill($professor->toArray());
     }
 
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -58,7 +47,7 @@ class ProfessorResource extends Resource
                             ->schema([
                                 Section::make('Informations Personnelles')
                                     ->schema([
-                                        Forms\Components\Grid::make()
+                                        Grid::make()
                                             ->schema([
                                                 TextInput::make('name')
                                                     ->label('Nom')
@@ -69,16 +58,10 @@ class ProfessorResource extends Resource
                                                     ->email()
                                                     ->required()
                                                     ->columnSpan(['md' => 2]),
-                                                TextInput::make('password')
-                                                    ->label('Password')
-                                                    ->password()
-                                                    ->visibleOn("create")
-                                                    ->required()
-                                                    ->columnSpan(['md' => 4]),
                                             ])
                                             ->columns(4),
 
-                                        Forms\Components\Grid::make()
+                                        Grid::make()
                                             ->schema([
                                                 Textarea::make('bio')
                                                     ->label('Biographie')
@@ -88,11 +71,12 @@ class ProfessorResource extends Resource
                                             ])
                                             ->columns(4),
 
-                                        SpatieMediaLibraryFileUpload::make('profile_picture')
-                                            ->label('Photo de profil')
-                                            ->collection('profile_picture') // Use the Spatie media collection
+                                        FileUpload::make('profile_picture')
                                             ->image()
-                                            ->nullable()
+                                            ->disk('public')
+                                            ->directory('profile-pictures')
+                                            ->visibility('public')
+                                            ->downloadable()
                                             ->columnSpanFull(),
                                     ])
                                     ->columns(1),
@@ -106,6 +90,7 @@ class ProfessorResource extends Resource
                                             ->label('Liens des Réseaux Sociaux')
                                             ->keyLabel('Plateforme')
                                             ->valueLabel('Lien')
+                                            ->reorderable()
                                             ->nullable(),
                                     ]),
                             ]),
@@ -174,63 +159,41 @@ class ProfessorResource extends Resource
                             ]),
 
                         Tabs\Tab::make('CV')
-
                             ->schema([
-                                SpatieMediaLibraryFileUpload::make('cv')
-                                    ->label('')
-                                    ->collection('cv')
+                                FileUpload::make('cv')
+                                    ->disk('public')
+                                    ->directory('cvs')
                                     ->acceptedFileTypes(['application/pdf'])
-                                    ->nullable(),
+                                    ->visibility('public')
+                                    ->downloadable(),
                             ]),
                     ])
                     ->columnSpanFull(),
-            ]);
+            ])
+            ->statePath('data');
     }
 
-    public static function table(Table $table): Table
+    public function save(): void
     {
-        return $table
-            ->columns([
-                ImageColumn::make('profile_picture')
-                    ->label('Photo de profil')
-                    ->circular()
-                    ->placeholder('Pas d\'image'), // Handle empty state
-                TextColumn::make('name')
-                    ->label('Nom')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email')
-                    ->sortable()
-                    ->searchable(),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make()->button(),
-                Tables\Actions\EditAction::make()->button()->outlined(),
-                Tables\Actions\ForceDeleteAction::make()->button()->outlined(),
-                Tables\Actions\RestoreAction::make()->button()->outlined(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
-            ]);
-    }
+        $data = $this->form->getState();
 
+        /** @var Professor $professor */
+        $professor = Auth::user();
 
+        $professor->update(collect($data)->except(['profile_picture', 'cv'])->toArray());
 
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListProfessors::route('/'),
-            'create' => Pages\CreateProfessor::route('/create'),
-            'view' => Pages\ViewProfessor::route('/{record}'),
-            'edit' => Pages\EditProfessor::route('/{record}/edit'),
-        ];
+        if (filled($data['profile_picture'])) {
+            $professor->clearMediaCollection('profile_picture');
+            $professor->addMedia(storage_path("app/public/{$data['profile_picture']}"))
+                ->toMediaCollection('profile_picture');
+        }
+
+        if (filled($data['cv'])) {
+            $professor->clearMediaCollection('cv');
+            $professor->addMedia(storage_path("app/public/{$data['cv']}"))
+                ->toMediaCollection('cv');
+        }
+
+        Notification::make()->success()->title('Saved successfully')->send();
     }
 }

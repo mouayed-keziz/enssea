@@ -172,7 +172,9 @@ class PublicationResource extends Resource
                             ->schema([
                                 Infolists\Components\TextEntry::make('pdf')
                                     ->label('')
-                                    ->view('filament.infolists.components.pdf-viewer'),
+                                    ->view('filament.infolists.components.pdf-viewer', [
+                                        'collection' => 'pdf'
+                                    ]),
                             ])
                             ->columnSpan(['lg' => 1]),
                     ])

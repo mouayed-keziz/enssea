@@ -8,10 +8,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 
-class Professor extends Authenticatable implements HasMedia
+class Professor extends Authenticatable implements HasMedia, FilamentUser, HasAvatar
 {
     use HasFactory, InteractsWithMedia, SoftDeletes, Notifiable;
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        if ($panel->getId() !== "professor") {
+            return false;
+        }
+        return true;
+    }
+
 
     protected $fillable = [
         'name',
