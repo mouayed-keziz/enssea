@@ -22,6 +22,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Constants\Countries;
 
 class ProfessorResource extends Resource
 {
@@ -73,6 +74,10 @@ class ProfessorResource extends Resource
                                                     ->label('Password')
                                                     ->password()
                                                     ->visibleOn("create")
+                                                    ->required()
+                                                    ->columnSpan(['md' => 4]),
+                                                TextInput::make('profession')
+                                                    ->label('Profession')
                                                     ->required()
                                                     ->columnSpan(['md' => 4]),
                                             ])
@@ -182,6 +187,37 @@ class ProfessorResource extends Resource
                                     ->acceptedFileTypes(['application/pdf'])
                                     ->nullable(),
                             ]),
+
+                        Tabs\Tab::make('Activités')
+                            ->schema([
+                                Section::make('Activités')
+                                    ->schema([
+                                        Repeater::make('activities')
+                                            ->label('Activités')
+                                            ->schema([
+                                                TextInput::make('title')
+                                                    ->label('Titre')
+                                                    ->required(),
+                                                Forms\Components\Select::make('country')
+                                                    ->searchable()
+                                                    ->options(Countries::COUNTRIES)
+                                                    ->label('Pays concerné')
+                                                    ->required(),
+                                                Forms\Components\RichEditor::make('description')
+                                                    ->label('Description')
+                                                    ->required()
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->collapsible()
+                                            ->collapseAllAction(
+                                                fn(\Filament\Forms\Components\Actions\Action $action) => $action->label('Réduire tout'),
+                                            )
+                                            ->expandAllAction(
+                                                fn(\Filament\Forms\Components\Actions\Action $action) => $action->label('Développer tout'),
+                                            )
+                                            ->nullable(),
+                                    ]),
+                            ]),
                     ])
                     ->columnSpanFull(),
             ]);
@@ -203,6 +239,10 @@ class ProfessorResource extends Resource
                     ->label('Email')
                     ->sortable()
                     ->searchable(),
+                // CountryCodeColumn::make('country_codes')
+                //     ->label('Pays')
+                //     ->sortable()
+                //     ->searchable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

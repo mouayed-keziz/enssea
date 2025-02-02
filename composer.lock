@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18647f89d362640a131b083acf3f87c6",
+    "content-hash": "f11eea2c41d4a24788f284aa607c4cd9",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -8198,6 +8198,76 @@
                 }
             ],
             "time": "2024-11-08T15:48:14+00:00"
+        },
+        {
+            "name": "tapp/filament-country-code-field",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TappNetwork/filament-country-code-field.git",
+                "reference": "1a33ea3b290f2520b0149279b6ad110e7e4439c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TappNetwork/filament-country-code-field/zipball/1a33ea3b290f2520b0149279b6ad110e7e4439c2",
+                "reference": "1a33ea3b290f2520b0149279b6ad110e7e4439c2",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0-stable",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentCountryCodeField": "Tapp\\FilamentCountryCodeField\\Facades\\FilamentCountryCodeField"
+                    },
+                    "providers": [
+                        "Tapp\\FilamentCountryCodeField\\FilamentCountryCodeFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tapp\\FilamentCountryCodeField\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tapp Network",
+                    "email": "steve@tappnetwork.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tapp Network",
+                    "email": "andreia.bohner@tappnetwork.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Filament country code field.",
+            "homepage": "https://github.com/TappNetwork/filament-country-code-field",
+            "keywords": [
+                "country code",
+                "filament",
+                "laravel",
+                "tapp network"
+            ],
+            "support": {
+                "issues": "https://github.com/TappNetwork/filament-country-code-field/issues",
+                "source": "https://github.com/TappNetwork/filament-country-code-field"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/TappNetwork",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-06-26T20:20:14+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

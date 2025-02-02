@@ -34,15 +34,21 @@ class Professor extends Authenticatable implements HasMedia, FilamentUser, HasAv
         'email',
         'password',
         'bio',
+        'profession',
         'social_media',
         'education',
         'experience',
         'skills',
+        'activities',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $attributes = [
+        'activities' => '[]',
     ];
 
     protected function casts(): array
@@ -52,6 +58,7 @@ class Professor extends Authenticatable implements HasMedia, FilamentUser, HasAv
             'education' => 'array',
             'experience' => 'array',
             'skills' => 'array',
+            'activities' => 'array',
             'password' => 'hashed',
         ];
     }

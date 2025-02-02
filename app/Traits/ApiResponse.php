@@ -6,11 +6,10 @@ trait ApiResponse
 {
     protected function successResponse($data, $message = 'Opération réussie', $code = 200)
     {
-        return response()->json([
+        return response()->json(array_merge([
             'status' => 'success',
             'message' => $message,
-            'data' => $data
-        ], $code);
+        ], $data), $code);
     }
 
     protected function errorResponse($message = 'Une erreur s\'est produite', $code = 404)

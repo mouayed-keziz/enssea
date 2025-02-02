@@ -11,6 +11,7 @@ use App\Models\Video;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Settings\LandingPageContent;
 
 class ContentController extends Controller
 {
@@ -24,16 +25,18 @@ class ContentController extends Controller
     public function getNews()
     {
         try {
-            $news = News::all()->map(function ($news) {
+            $newsPaginated = News::paginate();
+            $mapped = $newsPaginated->getCollection()->map(function ($item) {
                 return [
-                    'id' => $news->id,
-                    'title' => $news->title,
-                    'description' => $news->description,
-                    'content' => $news->content,
-                    'cover_image' => $news->cover_image,
+                    'id' => $item->id,
+                    'title' => $item->title,
+                    'description' => $item->description,
+                    'content' => $item->content,
+                    'cover_image' => $item->cover_image,
                 ];
             });
-            return $this->successResponse($news);
+            $newsPaginated->setCollection($mapped);
+            return $this->successResponse($newsPaginated->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des actualités');
         }
@@ -47,7 +50,8 @@ class ContentController extends Controller
     public function getClubs()
     {
         try {
-            $clubs = Club::all()->map(function ($club) {
+            $clubsPaginated = Club::paginate();
+            $mapped = $clubsPaginated->getCollection()->map(function ($club) {
                 return [
                     'id' => $club->id,
                     'name' => $club->name,
@@ -57,7 +61,8 @@ class ContentController extends Controller
                     'social_media_links' => $club->social_media_links,
                 ];
             });
-            return $this->successResponse($clubs);
+            $clubsPaginated->setCollection($mapped);
+            return $this->successResponse($clubsPaginated->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des clubs');
         }
@@ -71,7 +76,8 @@ class ContentController extends Controller
     public function getSponsors()
     {
         try {
-            $sponsors = Sponsor::all()->map(function ($sponsor) {
+            $sponsorsPaginated = Sponsor::paginate();
+            $mapped = $sponsorsPaginated->getCollection()->map(function ($sponsor) {
                 return [
                     'id' => $sponsor->id,
                     'name' => $sponsor->name,
@@ -80,7 +86,8 @@ class ContentController extends Controller
                     'logo' => $sponsor->logo,
                 ];
             });
-            return $this->successResponse($sponsors);
+            $sponsorsPaginated->setCollection($mapped);
+            return $this->successResponse($sponsorsPaginated->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des sponsors');
         }
@@ -94,7 +101,8 @@ class ContentController extends Controller
     public function getProfessors()
     {
         try {
-            $professors = Professor::all()->map(function ($professor) {
+            $professorsPaginated = Professor::paginate();
+            $mapped = $professorsPaginated->getCollection()->map(function ($professor) {
                 return [
                     'id' => $professor->id,
                     'name' => $professor->name,
@@ -103,7 +111,8 @@ class ContentController extends Controller
                     'bio' => $professor->bio,
                 ];
             });
-            return $this->successResponse($professors);
+            $professorsPaginated->setCollection($mapped);
+            return $this->successResponse($professorsPaginated->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des professeurs');
         }
@@ -130,6 +139,7 @@ class ContentController extends Controller
                 'education' => $professor->education,
                 'experience' => $professor->experience,
                 'skills' => $professor->skills,
+                'activities' => $professor->activities,
             ];
             return $this->successResponse($data);
         } catch (\Exception $e) {
@@ -147,23 +157,22 @@ class ContentController extends Controller
     {
         try {
             $perPage = $request->query('per_page', 10);
-            $publications = Publication::with('professor')
-                ->paginate($perPage)
-                ->through(function ($publication) {
-                    return [
-                        'id' => $publication->id,
-                        'title' => $publication->title,
-                        'description' => $publication->description,
-                        'type' => $publication->type,
-                        'professor' => [
-                            'id' => $publication->professor->id,
-                            'name' => $publication->professor->name,
-                        ],
-                        'pdf_url' => $publication->pdf,
-                    ];
-                });
-
-            return $this->successResponse($publications, 'Publications récupérées avec succès');
+            $publicationsPaginated = Publication::with('professor')->paginate($perPage);
+            $mapped = $publicationsPaginated->getCollection()->map(function ($publication) {
+                return [
+                    'id' => $publication->id,
+                    'title' => $publication->title,
+                    'description' => $publication->description,
+                    'type' => $publication->type,
+                    'professor' => [
+                        'id' => $publication->professor->id,
+                        'name' => $publication->professor->name,
+                    ],
+                    'pdf_url' => $publication->pdf,
+                ];
+            });
+            $publicationsPaginated->setCollection($mapped);
+            return $this->successResponse($publicationsPaginated->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des publications');
         }
@@ -179,25 +188,58 @@ class ContentController extends Controller
     {
         try {
             $perPage = $request->query('per_page', 10);
-            $videos = Video::with('professor')
-                ->paginate($perPage)
-                ->through(function ($video) {
-                    return [
-                        'id' => $video->id,
-                        'title' => $video->title,
-                        'description' => $video->description,
-                        'url' => $video->url,
-                        'thumbnail' => $video->thumbnail,
-                        'professor' => [
-                            'id' => $video->professor->id,
-                            'name' => $video->professor->name,
-                        ],
-                    ];
-                });
-
-            return $this->successResponse($videos, 'Vidéos récupérées avec succès');
+            $videosPaginated = Video::with('professor')->paginate($perPage);
+            $mapped = $videosPaginated->getCollection()->map(function ($video) {
+                return [
+                    'id' => $video->id,
+                    'title' => $video->title,
+                    'description' => $video->description,
+                    'url' => $video->url,
+                    'thumbnail' => $video->thumbnail,
+                    'professor' => [
+                        'id' => $video->professor->id,
+                        'name' => $video->professor->name,
+                    ],
+                ];
+            });
+            $videosPaginated->setCollection($mapped);
+            return $this->successResponse($videosPaginated->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des vidéos');
+        }
+    }
+
+    /**
+     * Get landing page content and settings.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLandingPageContent()
+    {
+        try {
+            $settings = app(LandingPageContent::class);
+
+            $data = [
+                'hero' => [
+                    'header' => $settings->hero_header,
+                    'description' => $settings->hero_description,
+                ],
+                'contact' => [
+                    'phone' => $settings->phone,
+                    'email' => $settings->email,
+                    'location' => $settings->location,
+                ],
+                'social_media' => [
+                    'facebook' => $settings->facebook_url,
+                    'linkedin' => $settings->linkedin_url,
+                    'instagram' => $settings->instagram_url,
+                ],
+                'about' => $settings->about_school,
+            ];
+
+            return $this->successResponse($data);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Erreur lors de la récupération du contenu de la page d\'accueil');
         }
     }
 }

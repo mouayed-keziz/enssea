@@ -20,7 +20,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "spatie/laravel-medialibrary": "^11.11",
-        "spatie/laravel-settings": "^3.4"
+        "spatie/laravel-settings": "^3.4",
+        "tapp/filament-country-code-field": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -32,4 +32,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/videos', [ContentController::class, 'getVideos'])
         ->description('Get paginated list of videos.')
         ->summary('List of videos');
+
+    Route::get('/landing-page', [ContentController::class, 'getLandingPageContent'])
+        ->description('Get landing page content and settings.')
+        ->summary('Landing page content');
 });
