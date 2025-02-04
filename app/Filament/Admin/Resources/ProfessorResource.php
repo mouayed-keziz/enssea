@@ -193,7 +193,7 @@ class ProfessorResource extends Resource
                                 Section::make('Activités')
                                     ->schema([
                                         Repeater::make('activities')
-                                            ->label('Activités')
+                                            ->label('')
                                             ->schema([
                                                 TextInput::make('title')
                                                     ->label('Titre')
