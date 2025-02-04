@@ -98,4 +98,9 @@ class Professor extends Authenticatable implements HasMedia, FilamentUser, HasAv
     {
         return $this->hasMany(Publication::class);
     }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
 }

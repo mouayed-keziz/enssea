@@ -13,4 +13,9 @@ class Sidebar
         'sort' => 2,
         'group' => "Mon Contenu",
     ];
+
+    public const ARTICLES = [
+        "sort" => 3,
+        'group' => 'Mon Contenu'
+    ];
 }

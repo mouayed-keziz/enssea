@@ -70,26 +70,35 @@ class ProfessorFactory extends Factory
         });
     }
 
-    // public function configure()
-    // {
-    // return $this->afterCreating(function (Professor $professor) {
-    //     try {
-    //         // Add a random profile picture
-    //         $professor->addMediaFromUrl('https://source.unsplash.com/random/800x600')
-    //             ->toMediaCollection('profile_picture');
-    //     } catch (\Exception $e) {
-    //         // Fallback to a placeholder image if Unsplash fails
-    //         $professor->addMediaFromUrl('https://picsum.photos/800/600')
-    //             ->toMediaCollection('profile_picture');
-    //     }
+    public function withArticles(int $count = 0)
+    {
+        return $this->afterCreating(function (Professor $professor) use ($count) {
+            \App\Models\Article::factory()->count($count)->create([
+                'professor_id' => $professor->id
+            ]);
+        });
+    }
 
-    //     try {
-    //         // Add a random CV file (PDF)
-    //         $professor->addMediaFromUrl('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf')
-    //             ->toMediaCollection('cv');
-    //     } catch (\Exception $e) {
-    //         // If PDF fetch fails, skip CV attachment
-    //     }
-    // });
-    // }
+    public function configure()
+    {
+        return $this->afterCreating(function (Professor $professor) {
+            try {
+                // Add a random profile picture
+                $professor->addMediaFromUrl('https://source.unsplash.com/random/800x600')
+                    ->toMediaCollection('profile_picture');
+            } catch (\Exception $e) {
+                // Fallback to a placeholder image if Unsplash fails
+                $professor->addMediaFromUrl('https://picsum.photos/800/600')
+                    ->toMediaCollection('profile_picture');
+            }
+
+            try {
+                // Add a random CV file (PDF)
+                $professor->addMediaFromUrl('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf')
+                    ->toMediaCollection('cv');
+            } catch (\Exception $e) {
+                // If PDF fetch fails, skip CV attachment
+            }
+        });
+    }
 }

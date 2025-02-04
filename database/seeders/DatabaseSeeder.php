@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create professors with videos and publications
-        Professor::factory()->withVideos(3)->withPublications(2)->create();
-        Professor::factory()->withVideos(5)->withPublications(4)->create();
-        Professor::factory()->withVideos(2)->withPublications(3)->create();
+        Professor::factory()->withVideos(3)->withArticles(4)->withPublications(2)->create();
+        Professor::factory()->withVideos(5)->withArticles(2)->withPublications(4)->create();
+        Professor::factory()->withVideos(2)->withArticles(3)->withPublications(3)->create();
         // Professor::factory(3)->create();
 
         News::factory()->count(3)->create();
