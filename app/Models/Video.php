@@ -27,10 +27,13 @@ class Video extends Model implements HasMedia
 
     public function getThumbnailAttribute()
     {
+        if ($this->hasMedia('thumbnail')) {
+            return $this->getFirstMediaUrl('thumbnail');
+        }
         if ($this->isYoutubeVideo()) {
             return $this->getYoutubeThumbnail();
         }
-        return $this->getFirstMediaUrl('thumbnail');
+        return null;
     }
 
     public function getRecordTitleAttribute(): string

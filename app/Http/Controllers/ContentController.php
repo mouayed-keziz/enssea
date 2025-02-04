@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\News;
-use App\Models\Professor;
 use App\Models\Sponsor;
 use App\Models\Publication;
 use App\Models\Video;
+use App\Models\Article;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -90,60 +90,6 @@ class ContentController extends Controller
             return $this->successResponse($sponsorsPaginated->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération des sponsors');
-        }
-    }
-
-    /**
-     * Display a listing of professors.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getProfessors()
-    {
-        try {
-            $professorsPaginated = Professor::paginate();
-            $mapped = $professorsPaginated->getCollection()->map(function ($professor) {
-                return [
-                    'id' => $professor->id,
-                    'name' => $professor->name,
-                    'email' => $professor->email,
-                    'profile_picture' => $professor->profile_picture,
-                    'bio' => $professor->bio,
-                ];
-            });
-            $professorsPaginated->setCollection($mapped);
-            return $this->successResponse($professorsPaginated->toArray());
-        } catch (\Exception $e) {
-            return $this->errorResponse('Erreur lors de la récupération des professeurs');
-        }
-    }
-
-    /**
-     * Display a single professor with all details.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getSingleProfessor($id)
-    {
-        try {
-            $professor = Professor::findOrFail($id);
-            $data = [
-                'id' => $professor->id,
-                'name' => $professor->name,
-                'email' => $professor->email,
-                'profile_picture' => $professor->profile_picture,
-                'cv_url' => $professor->cv_url,
-                'bio' => $professor->bio,
-                'social_media' => $professor->social_media,
-                'education' => $professor->education,
-                'experience' => $professor->experience,
-                'skills' => $professor->skills,
-                'activities' => $professor->activities,
-            ];
-            return $this->successResponse($data);
-        } catch (\Exception $e) {
-            return $this->errorResponse('Professeur non trouvé');
         }
     }
 
@@ -240,6 +186,37 @@ class ContentController extends Controller
             return $this->successResponse($data);
         } catch (\Exception $e) {
             return $this->errorResponse('Erreur lors de la récupération du contenu de la page d\'accueil');
+        }
+    }
+
+    /**
+     * Display a paginated list of articles.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getArticles(Request $request)
+    {
+        try {
+            $perPage = $request->query('per_page', 10);
+            $articlesPaginated = Article::with('professor')->paginate($perPage);
+            $mapped = $articlesPaginated->getCollection()->map(function ($article) {
+                return [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'content' => $article->content,
+                    'slug' => $article->slug,
+                    'professor' => [
+                        'id' => $article->professor->id,
+                        'name' => $article->professor->name,
+                    ],
+                    'created_at' => $article->created_at,
+                ];
+            });
+            $articlesPaginated->setCollection($mapped);
+            return $this->successResponse($articlesPaginated->toArray());
+        } catch (\Exception $e) {
+            return $this->errorResponse('Erreur lors de la récupération des articles');
         }
     }
 }
