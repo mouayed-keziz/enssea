@@ -11,8 +11,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Professor\Navigation\Sidebar as NavigationSidebar;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\ImageColumn;
 
 class ArticleResource extends Resource
@@ -94,13 +96,11 @@ class ArticleResource extends Resource
                             ->columnSpan(2),
                         Forms\Components\Section::make()
                             ->schema([
-                                Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                                SpatieMediaLibraryFileUpload::make('image')
                                     ->label('Image')
                                     ->collection('image')
                                     ->image()
-                                    ->imageEditor()
-                                    ->downloadable()
-                                    ->class('rounded-lg'),
+                                    ->imageEditor(),
                             ])
                             ->columnSpan(1),
                     ])
