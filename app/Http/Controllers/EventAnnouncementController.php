@@ -37,7 +37,7 @@ class EventAnnouncementController
         try {
             $event = EventAnnouncement::findOrFail($id);
             return $this->successResponse([
-                'event_announcement' => [
+                'data' => [
                     'id' => $event->id,
                     'title' => $event->title,
                     'description' => $event->description,

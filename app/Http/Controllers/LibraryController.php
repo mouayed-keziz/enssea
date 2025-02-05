@@ -73,8 +73,10 @@ class LibraryController
 
             // Return combined response using successResponse
             return $this->successResponse([
-                'articles' => $articlesPaginated->toArray(),
-                'videos' => $videosPaginated->toArray(),
+                'date' => [
+                    'articles' => $articlesPaginated->toArray(),
+                    'videos' => $videosPaginated->toArray(),
+                ]
             ]);
         } catch (\Exception $e) {
             // Return error response using errorResponse

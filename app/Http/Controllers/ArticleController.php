@@ -40,7 +40,7 @@ class ArticleController
         try {
             $article = Article::where('slug', $slug)->with('professor')->firstOrFail();
             return $this->successResponse([
-                'article' => [
+                'data' => [
                     'id' => $article->id,
                     'title' => $article->title,
                     'content' => $article->content,
