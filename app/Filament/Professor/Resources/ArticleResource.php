@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Professor\Navigation\Sidebar as NavigationSidebar;
+use Filament\Tables\Columns\ImageColumn;
 
 class ArticleResource extends Resource
 {
@@ -22,7 +23,7 @@ class ArticleResource extends Resource
     protected static ?string $navigationLabel = 'Articles';
     protected static ?string $modelLabel = 'Article';
     protected static ?string $pluralLabel = 'Articles';
-    protected static ?string $recordTitleAttribute = 'title';
+    protected static ?string $recordTitleAttribute = 'recordTitle';
 
     protected static ?int $navigationSort = NavigationSidebar::ARTICLES['sort'];
     protected static ?string $navigationGroup = NavigationSidebar::ARTICLES['group'];
@@ -46,45 +47,64 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()
+                Forms\Components\Grid::make()
                     ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->label('Titre')
-                            ->required()
-                            ->maxLength(255)
-                            ->live(onBlur: true),
-                        Forms\Components\TextInput::make('slug')
-                            ->label('Slug')
-                            ->required()
-                            ->maxLength(255)
-                            ->unique(ignoreRecord: true)
-                            ->suffixAction(
-                                Forms\Components\Actions\Action::make('generateSlug')
-                                    ->label('Générer')
-                                    ->icon('heroicon-m-arrow-path')
-                                    ->action(function (Forms\Get $get, Forms\Set $set) {
-                                        $set('slug', \Illuminate\Support\Str::slug($get('title')));
-                                    })
-                            ),
-                        Forms\Components\RichEditor::make('content')
-                            ->label('Contenu')
-                            ->required()
-                            ->toolbarButtons([
-                                'blockquote',
-                                'bold',
-                                'bulletList',
-                                'codeBlock',
-                                'h2',
-                                'h3',
-                                'italic',
-                                'link',
-                                'orderedList',
-                                'redo',
-                                'strike',
-                                'underline',
-                                'undo',
-                            ]),
-                    ]),
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Titre')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->columnSpan('full'),
+                                Forms\Components\TextInput::make('slug')
+                                    ->label('Slug')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->unique(ignoreRecord: true)
+                                    ->columnSpan('full')
+                                    ->suffixAction(
+                                        Forms\Components\Actions\Action::make('generateSlug')
+                                            ->label('Générer')
+                                            ->icon('heroicon-m-arrow-path')
+                                            ->action(function (Forms\Get $get, Forms\Set $set) {
+                                                $set('slug', \Illuminate\Support\Str::slug($get('title')));
+                                            })
+                                    ),
+                                Forms\Components\RichEditor::make('content')
+                                    ->label('Contenu')
+                                    ->required()
+                                    ->columnSpan('full')
+                                    ->toolbarButtons([
+                                        'blockquote',
+                                        'bold',
+                                        'bulletList',
+                                        'codeBlock',
+                                        'h2',
+                                        'h3',
+                                        'italic',
+                                        'link',
+                                        'orderedList',
+                                        'redo',
+                                        'strike',
+                                        'underline',
+                                        'undo',
+                                    ]),
+                            ])
+                            ->columnSpan(2),
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                                    ->label('Image')
+                                    ->collection('image')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->downloadable()
+                                    ->class('rounded-lg'),
+                            ])
+                            ->columnSpan(1),
+                    ])
+                    ->columns(3),
             ]);
     }
 
@@ -92,6 +112,10 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label('Image')
+                    ->placeholder("Sans image")
+                    ->circular(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Titre')
                     ->searchable()

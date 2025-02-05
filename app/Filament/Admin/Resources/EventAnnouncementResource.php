@@ -3,14 +3,12 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Navigation\Sidebar;
-use App\Filament\Admin\Resources\NewsResource\Pages;
-use App\Filament\Admin\Resources\NewsResource\RelationManagers;
-use App\Models\News;
+use App\Filament\Admin\Resources\EventAnnouncementResource\Pages;
+use App\Models\EventAnnouncement;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -23,23 +21,24 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class NewsResource extends Resource
+class EventAnnouncementResource extends Resource
 {
-    protected static ?string $model = News::class;
+    protected static ?string $model = EventAnnouncement::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
-    protected static ?string $navigationLabel = 'Actualités';
-    protected static ?string $modelLabel = 'Actualité';
-    protected static ?string $pluralLabel = 'Actualités';
+    protected static ?string $navigationIcon = 'heroicon-o-megaphone';
+    protected static ?string $navigationLabel = 'Évènements';
+    protected static ?string $modelLabel = 'Évènement';
+    protected static ?string $pluralLabel = 'Évènements';
+
     protected static ?string $recordTitleAttribute = 'recordTitle';
 
-    protected static ?int $navigationSort = Sidebar::NEWS['sort'];
-    protected static ?string $navigationGroup = Sidebar::NEWS['group'];
+    protected static ?int $navigationSort = Sidebar::EVENT_ANNOUNCEMENT['sort'];
+    protected static ?string $navigationGroup = Sidebar::EVENT_ANNOUNCEMENT['group'];
 
     protected static bool $isGloballySearchable = true;
     public static function getGloballySearchableAttributes(): array
     {
-        return ['title', 'description', 'url']; // Add columns you want to search
+        return ['title', 'description', 'location']; // Add columns you want to search
     }
 
     public static function getNavigationBadge(): ?string
@@ -47,14 +46,12 @@ class NewsResource extends Resource
         return static::getModel()::count();
     }
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Grid::make()
                     ->schema([
-                        // First Section (3/5 width)
                         Forms\Components\Section::make('Informations')
                             ->schema([
                                 Forms\Components\TextInput::make('title')
@@ -65,62 +62,63 @@ class NewsResource extends Resource
                                     ->label('Description')
                                     ->rows(4)
                                     ->maxLength(65535),
-                                Forms\Components\TextInput::make('url')
-                                    ->label('URL')
-                                    ->url()
+                                Forms\Components\TextInput::make('location')
+                                    ->label('Lieu')
                                     ->maxLength(255),
-
-                                Forms\Components\DatePicker::make('date')
+                                Forms\Components\DateTimePicker::make('date')
                                     ->label('Date')
                                     ->native(false)
-                                    ->displayFormat('d/m/Y')
-                                    ->nullable(),
+                                    ->displayFormat('d/m/Y H:i')
+                                    ->required(),
+                                Forms\Components\RichEditor::make('content')
+                                    ->label('Contenu')
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'bulletList',
+                                        'h2',
+                                        'h3',
+                                        'italic',
+                                        'link',
+                                        'orderedList',
+                                        'redo',
+                                        'strike',
+                                        'undo',
+                                    ])
                             ])
-                            ->columnSpan(3), // 3/5 width
+                            ->columnSpan(3),
 
-                        // Second Section (2/5 width)
-                        Forms\Components\Section::make('Image de Couverture')
+                        Forms\Components\Section::make('Image')
                             ->schema([
-                                SpatieMediaLibraryFileUpload::make('news_cover')
+                                SpatieMediaLibraryFileUpload::make('image')
                                     ->label('')
-                                    ->collection('news_cover')
+                                    ->collection('image')
                                     ->image()
                                     ->imageEditor(),
                             ])
-                            ->columnSpan(2), // 2/5 width
+                            ->columnSpan(2),
                     ])
-                    ->columns(5), // Total of 5 columns
+                    ->columns(5),
             ]);
     }
-
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                ImageColumn::make('coverImage')
+                ImageColumn::make('image')
+                    ->placeholder("Aucune image")
                     ->label('Image')
-                    ->placeholder("Sans image")
                     ->circular(),
                 TextColumn::make('title')
                     ->label('Titre')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('description')
-                    ->label('Description')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->limit(50)
-                    ->tooltip(function (TextColumn $column): ?string {
-                        $state = $column->getState();
-                        return strlen($state) > 50 ? $state : null;
-                    }),
-                TextColumn::make('url')
-                    ->label('URL')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('location')
+                    ->label('Lieu')
+                    ->sortable(),
                 TextColumn::make('date')
                     ->label('Date')
-                    ->date('d/m/Y')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable(),
                 TextColumn::make('deleted_at')
                     ->label('Supprimé le')
@@ -154,38 +152,38 @@ class NewsResource extends Resource
             ->schema([
                 Grid::make()
                     ->schema([
-                        // First Section (3/5 width)
                         Section::make('Informations')
                             ->schema([
                                 TextEntry::make('title')
                                     ->label('Titre'),
                                 TextEntry::make('description')
                                     ->label('Description'),
-                                TextEntry::make('url')
-                                    ->label('URL'),
+                                TextEntry::make('location')
+                                    ->label('Lieu'),
                                 TextEntry::make('date')
                                     ->label('Date')
-                                    ->date('d/m/Y'),
+                                    ->dateTime('d/m/Y H:i'),
+                                TextEntry::make('content')
+                                    ->label('Contenu')
+                                    ->html(),
                             ])
-                            ->columnSpan(3), // 3/5 width
+                            ->columnSpan(3),
 
-                        // Second Section (2/5 width)
-                        Section::make('Image de Couverture')
+                        Section::make('Image')
                             ->schema([
-                                SpatieMediaLibraryImageEntry::make('news_cover')
-                                    ->collection('news_cover')
+                                SpatieMediaLibraryImageEntry::make('image')
                                     ->label('')
-                                    ->placeholder('Sans image')
-                                    ->extraImgAttributes(
-                                        ['style' => 'max-width: 100%; height: auto;']
-                                    )
+                                    ->placeholder("Aucune image")
+                                    ->collection('image')
+                                    ->extraImgAttributes([
+                                        'style' => 'max-width: 100%; height: auto;'
+                                    ])
                             ])
-                            ->columnSpan(2), // 2/5 width
+                            ->columnSpan(2),
                     ])
-                    ->columns(5), // Total of 5 columns
+                    ->columns(5),
             ]);
     }
-
 
     public static function getRelations(): array
     {
@@ -197,10 +195,10 @@ class NewsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListNews::route('/'),
-            'create' => Pages\CreateNews::route('/create'),
-            'view' => Pages\ViewNews::route('/{record}'),
-            'edit' => Pages\EditNews::route('/{record}/edit'),
+            'index' => Pages\ListEventAnnouncements::route('/'),
+            'create' => Pages\CreateEventAnnouncement::route('/create'),
+            'view' => Pages\ViewEventAnnouncement::route('/{record}'),
+            'edit' => Pages\EditEventAnnouncement::route('/{record}/edit'),
         ];
     }
 

@@ -4,36 +4,57 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\ProfessorController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ClubController;
+use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\EventAnnouncementController;
+use App\Http\Controllers\LibraryController;
 
 Route::prefix('v1')->group(function () {
     // Content routes
-    Route::get("/news", [ContentController::class, 'getNews'])
+    Route::get("/news", [NewsController::class, 'index'])
         ->description('Get list of news items.')
         ->summary("List of news items");
 
-    Route::get("/clubs", [ContentController::class, 'getClubs'])
+    Route::get("/clubs", [ClubController::class, 'index'])
         ->description('Get list of clubs.')
         ->summary("List of clubs");
 
-    Route::get('/sponsors', [ContentController::class, 'getSponsors'])
+    Route::get('/sponsors', [SponsorController::class, 'index'])
         ->description('Get list of sponsors.')
         ->summary('List of sponsors');
 
-    Route::get('/publications', [ContentController::class, 'getPublications'])
+    Route::get('/publications', [PublicationController::class, 'index'])
         ->description('Get paginated list of publications.')
         ->summary('List of publications');
 
-    Route::get('/videos', [ContentController::class, 'getVideos'])
+    Route::get('/videos', [VideoController::class, 'index'])
         ->description('Get paginated list of videos.')
         ->summary('List of videos');
 
-    Route::get('/articles', [ContentController::class, 'getArticles'])
+    Route::get('/articles', [ArticleController::class, 'index'])
         ->description('Get paginated list of articles.')
         ->summary('List of articles');
+
+    Route::get('/articles/{slug}', [ArticleController::class, 'show'])
+        ->description('Get detailed information about a specific article.')
+        ->summary('Single article details');
 
     Route::get('/landing-page', [ContentController::class, 'getLandingPageContent'])
         ->description('Get landing page content and settings.')
         ->summary('Landing page content');
+
+    // Event Announcement routes
+    Route::get('/event-announcements', [EventAnnouncementController::class, 'index'])
+        ->description('Get paginated list of event announcements.')
+        ->summary('List of event announcements');
+
+    Route::get('/event-announcements/{id}', [EventAnnouncementController::class, 'show'])
+        ->description('Get detailed information about a specific event.')
+        ->summary('Single event details');
 
     // Professor routes
     Route::get('/professors', [ProfessorController::class, 'index'])
@@ -55,4 +76,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/professors/{id}/articles', [ProfessorController::class, 'articles'])
         ->description('Get paginated list of articles for a specific professor.')
         ->summary('Professor articles');
+
+    // Library routes
+    Route::get('/library', [LibraryController::class, 'index'])
+        ->description('Get paginated list of articles and videos for the library. Has query params: q (search), articles_page, articles_per_page, videos_page, videos_per_page.')
+        ->summary('Library content');
 });

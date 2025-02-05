@@ -23,6 +23,11 @@ class Sidebar
         'group' => 'Contenu du Site',
     ];
 
+    public const EVENT_ANNOUNCEMENT = [
+        'sort' => 5,
+        'group' => 'Contenu du Site',
+    ];
+
     public const PROFESSOR = [
         'sort' => 5,
         'group' => 'Plateforme',

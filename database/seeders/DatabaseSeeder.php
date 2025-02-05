@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Sponsor;
 use App\Models\Club;
+use App\Models\EventAnnouncement;
 use App\Models\News;
 use App\Models\Professor;
 use App\Models\User;
@@ -25,14 +26,18 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        // Create professors with videos and publications
-        Professor::factory()->withVideos(3)->withArticles(4)->withPublications(2)->create();
         Professor::factory()->withVideos(5)->withArticles(2)->withPublications(4)->create();
         Professor::factory()->withVideos(2)->withArticles(3)->withPublications(3)->create();
-        // Professor::factory(3)->create();
+        Professor::factory(3)->create();
 
-        News::factory()->count(3)->create();
-        Club::factory()->count(3)->create();
-        Sponsor::factory()->count(3)->create();
+        News::factory()->count(17)->create();
+        Club::factory()->count(6)->create();
+        Sponsor::factory()->count(10)->create();
+        EventAnnouncement::factory(12)->create();
+
+        // News::factory()->withMedia()->create();
+        // Club::factory()->withMedia()->create();
+        // Sponsor::factory()->withMedia()->create();
+        // EventAnnouncement::factory()->withMedia()->create();
     }
 }

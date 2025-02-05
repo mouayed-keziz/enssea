@@ -104,6 +104,7 @@ class SponsorResource extends Resource
             ->columns([
                 SpatieMediaLibraryImageColumn::make('sponsor_logo')
                     ->label('Logo')
+                    ->placeholder('Aucun image')
                     ->collection('sponsor_logo')
                     ->circular(),
                 TextColumn::make('name')
@@ -164,6 +165,7 @@ class SponsorResource extends Resource
                                 SpatieMediaLibraryImageEntry::make('sponsor_logo')
                                     ->collection('sponsor_logo')
                                     ->label('')
+                                    ->placeholder('Aucun image')
                                     ->extraImgAttributes(
                                         ['style' => 'max-width: 100%; height: auto;']
                                     ),

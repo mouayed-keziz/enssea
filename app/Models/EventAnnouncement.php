@@ -8,30 +8,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class News extends Model implements HasMedia
+class EventAnnouncement extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use InteractsWithMedia;
+    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
         'title',
         'description',
-        'url',
         'date',
+        'location',
+        'content'
+    ];
+
+    protected $casts = [
+        'date' => 'datetime'
     ];
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('news_cover')
+        $this->addMediaCollection('image')
             ->singleFile();
     }
 
-    public function getCoverImageAttribute()
+    public function getImageAttribute()
     {
-        return $this->hasMedia('news_cover') ? $this->getFirstMediaUrl('news_cover') : null;
-    }
-    public function getRecordTitleAttribute(): string
-    {
-        return "Actualité: {$this->title}";
+        return $this->hasMedia('image') ? $this->getFirstMediaUrl('image') : null;
     }
 }

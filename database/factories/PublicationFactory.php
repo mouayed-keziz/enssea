@@ -20,7 +20,7 @@ class PublicationFactory extends Factory
         ];
     }
 
-    public function configure()
+    public function withMedia()
     {
         return $this->afterCreating(function (Publication $publication) {
             try {

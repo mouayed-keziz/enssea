@@ -79,6 +79,26 @@ class ProfessorFactory extends Factory
         });
     }
 
+    public function withMedia()
+    {
+        return $this->afterCreating(function (Professor $professor) {
+            try {
+                $professor->addMediaFromUrl('https://source.unsplash.com/random/800x600')
+                    ->toMediaCollection('profile_picture');
+            } catch (\Exception $e) {
+                $professor->addMediaFromUrl('https://picsum.photos/800/600')
+                    ->toMediaCollection('profile_picture');
+            }
+
+            try {
+                $professor->addMediaFromUrl('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf')
+                    ->toMediaCollection('cv');
+            } catch (\Exception $e) {
+                // If PDF fetch fails, skip CV attachment
+            }
+        });
+    }
+
     public function configure()
     {
         return $this->afterCreating(function (Professor $professor) {

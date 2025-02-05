@@ -9,14 +9,15 @@ use App\Models\Article;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
-class ProfessorController extends Controller
+class ProfessorController
 {
     use ApiResponse;
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $professorsPaginated = Professor::paginate();
+            $perPage = $request->query('per_page', 10);
+            $professorsPaginated = Professor::paginate($perPage);
             $mapped = $professorsPaginated->getCollection()->map(function ($professor) {
                 return [
                     'id' => $professor->id,

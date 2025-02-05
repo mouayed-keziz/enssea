@@ -42,4 +42,9 @@ class Publication extends Model implements HasMedia
     {
         return $this->hasMedia('pdf') ? $this->getFirstMediaUrl('pdf') : null;
     }
+
+    public function getRecordTitleAttribute(): string
+    {
+        return "Publication: {$this->title}";
+    }
 }

@@ -18,15 +18,14 @@ class SponsorFactory extends Factory
         ];
     }
 
-    public function configure()
+
+    public function withMedia()
     {
         return $this->afterCreating(function (Sponsor $sponsor) {
             try {
-                // Add a random image for the sponsor logo
                 $sponsor->addMediaFromUrl('https://source.unsplash.com/random/800x600')
                     ->toMediaCollection('sponsor_logo');
             } catch (\Exception $e) {
-                // Fallback to a placeholder image if Unsplash fails
                 $sponsor->addMediaFromUrl('https://picsum.photos/800/600')
                     ->toMediaCollection('sponsor_logo');
             }

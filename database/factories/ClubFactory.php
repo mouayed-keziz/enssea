@@ -23,15 +23,13 @@ class ClubFactory extends Factory
         ];
     }
 
-    public function configure()
+    public function withMedia()
     {
         return $this->afterCreating(function (Club $club) {
             try {
-                // Add a random image for the club logo
                 $club->addMediaFromUrl('https://source.unsplash.com/random/800x600')
                     ->toMediaCollection('club_logo');
             } catch (\Exception $e) {
-                // Fallback to a placeholder image if Unsplash fails
                 $club->addMediaFromUrl('https://picsum.photos/800/600')
                     ->toMediaCollection('club_logo');
             }

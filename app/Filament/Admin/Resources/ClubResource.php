@@ -168,6 +168,7 @@ class ClubResource extends Resource
                                 SpatieMediaLibraryImageEntry::make('club_logo')
                                     ->collection('club_logo')
                                     ->label('')
+                                    ->placeholder("Sans logo")
                                     ->extraImgAttributes(
                                         ['style' => 'max-width: 100%; height: auto;']
                                     )

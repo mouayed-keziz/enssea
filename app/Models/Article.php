@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Article extends Model
+class Article extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'title',
@@ -21,5 +23,21 @@ class Article extends Model
     public function professor(): BelongsTo
     {
         return $this->belongsTo(Professor::class);
+    }
+
+    public function getRecordTitleAttribute(): string
+    {
+        return "Article : {$this->title}";
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')
+            ->singleFile();
+    }
+
+    public function getImageAttribute()
+    {
+        return $this->hasMedia('image') ? $this->getFirstMediaUrl('image') : null;
     }
 }
