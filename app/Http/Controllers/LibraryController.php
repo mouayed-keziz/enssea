@@ -73,7 +73,7 @@ class LibraryController
 
             // Return combined response using successResponse
             return $this->successResponse([
-                'date' => [
+                'data' => [
                     'articles' => $articlesPaginated->toArray(),
                     'videos' => $videosPaginated->toArray(),
                 ]
