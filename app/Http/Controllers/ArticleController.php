@@ -19,7 +19,6 @@ class ArticleController
                 return [
                     'id' => $article->id,
                     'title' => $article->title,
-                    'content' => $article->content,
                     'slug' => $article->slug,
                     'image' => $article->image,
                     'professor' => [
@@ -41,15 +40,17 @@ class ArticleController
         try {
             $article = Article::where('slug', $slug)->with('professor')->firstOrFail();
             return $this->successResponse([
-                'id' => $article->id,
-                'title' => $article->title,
-                'content' => $article->content,
-                'slug' => $article->slug,
-                'professor' => [
-                    'id' => $article->professor->id,
-                    'name' => $article->professor->name,
-                ],
-                'created_at' => $article->created_at,
+                'article' => [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'content' => $article->content,
+                    'slug' => $article->slug,
+                    'professor' => [
+                        'id' => $article->professor->id,
+                        'name' => $article->professor->name,
+                    ],
+                    'created_at' => $article->created_at,
+                ]
             ]);
         } catch (\Exception $e) {
             return $this->errorResponse('Article non trouvé');

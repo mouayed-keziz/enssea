@@ -51,7 +51,7 @@ class ProfessorController
                 'skills' => $professor->skills,
                 'activities' => $professor->activities,
             ];
-            return $this->successResponse($data);
+            return $this->successResponse(["professor" => $data]);
         } catch (\Exception $e) {
             return $this->errorResponse('Professeur non trouvé');
         }
@@ -120,7 +120,6 @@ class ProfessorController
                 return [
                     'id' => $article->id,
                     'title' => $article->title,
-                    'content' => $article->content,
                     'slug' => $article->slug,
                     'created_at' => $article->created_at,
                 ];

@@ -37,13 +37,15 @@ class EventAnnouncementController
         try {
             $event = EventAnnouncement::findOrFail($id);
             return $this->successResponse([
-                'id' => $event->id,
-                'title' => $event->title,
-                'description' => $event->description,
-                'location' => $event->location,
-                'date' => $event->date,
-                'content' => $event->content,
-                'image' => $event->image,
+                'event_announcement' => [
+                    'id' => $event->id,
+                    'title' => $event->title,
+                    'description' => $event->description,
+                    'location' => $event->location,
+                    'date' => $event->date,
+                    'content' => $event->content,
+                    'image' => $event->image,
+                ]
             ]);
         } catch (\Exception $e) {
             return $this->errorResponse('Événement non trouvé');
