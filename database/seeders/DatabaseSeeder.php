@@ -26,13 +26,13 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        Professor::factory()->withVideos(5)->withArticles(2)->withPublications(4)->create();
-        Professor::factory()->withVideos(2)->withArticles(3)->withPublications(3)->create();
+        Professor::factory()->withVideos(10)->withArticles(12)->withPublications(2)->create();
+        Professor::factory()->withVideos(8)->withArticles(7)->withPublications(6)->create();
         Professor::factory(3)->create();
 
-        News::factory()->count(17)->create();
-        Club::factory()->count(6)->create();
-        Sponsor::factory()->count(10)->create();
+        News::factory()->count(23)->create();
+        Club::factory()->count(7)->create();
+        Sponsor::factory()->count(11)->create();
         EventAnnouncement::factory(12)->create();
 
         // News::factory()->withMedia()->create();
