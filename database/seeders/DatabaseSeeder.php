@@ -8,8 +8,6 @@ use App\Models\EventAnnouncement;
 use App\Models\News;
 use App\Models\Professor;
 use App\Models\User;
-use App\Models\Article;
-use App\Models\Publication;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,30 +26,10 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        Professor::factory()
-            ->withVideos(10)
-            ->withArticles(12)->has(Article::factory(12)->withMedia())
-            ->withPublications(2)->has(Publication::factory(2)->withMedia())
-            ->withMedia()
-            ->create();
-        Professor::factory()
-            ->withVideos(8)
-            ->withArticles(7)->has(Article::factory(7)->withMedia())
-            ->withPublications(6)->has(Publication::factory(6)->withMedia())
-            ->withMedia()
-            ->create();
-        Professor::factory()
-            ->withVideos(8)
-            ->withArticles(3)->has(Article::factory(3)->withMedia())
-            ->withPublications(1)->has(Publication::factory(1)->withMedia())
-            ->withMedia()
-            ->create();
-        Professor::factory()
-            ->withVideos(0)
-            ->withArticles(2)->has(Article::factory(2)->withMedia())
-            ->withPublications(5)->has(Publication::factory(5)->withMedia())
-            ->withMedia()
-            ->create();
+        Professor::factory()->withVideos(10)->withArticles(12)->withPublications(2)->withMedia()->create();
+        Professor::factory()->withVideos(8)->withArticles(7)->withPublications(6)->withMedia()->create();
+        Professor::factory()->withVideos(8)->withArticles(3)->withPublications(1)->withMedia()->create();
+        Professor::factory()->withVideos(0)->withArticles(2)->withPublications(5)->withMedia()->create();
         // Professor::factory(3)->withMedia()->create();
 
         News::factory()->count(23)->withMedia()->create();
