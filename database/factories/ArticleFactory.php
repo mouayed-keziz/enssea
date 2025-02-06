@@ -21,4 +21,17 @@ class ArticleFactory extends Factory
             'professor_id' => Professor::factory(),
         ];
     }
+
+    public function withMedia()
+    {
+        return $this->afterCreating(function (Article $article) {
+            try {
+                $article->addMediaFromUrl('https://source.unsplash.com/random/800x600')
+                    ->toMediaCollection('image');
+            } catch (\Exception $e) {
+                $article->addMediaFromUrl('https://picsum.photos/800/600')
+                    ->toMediaCollection('image');
+            }
+        });
+    }
 }
