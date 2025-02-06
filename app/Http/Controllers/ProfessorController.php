@@ -8,6 +8,7 @@ use App\Models\Publication;
 use App\Models\Article;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use App\Constants\Countries;
 
 class ProfessorController
 {
@@ -38,6 +39,26 @@ class ProfessorController
     {
         try {
             $professor = Professor::findOrFail($id);
+
+            // Transform activities to include formatted country data
+            $activities = collect($professor->activities)->map(function ($activity) {
+                $countryCode = str_pad($activity['country'], 3, '0', STR_PAD_LEFT);
+                // Convert the activity country to string after removing leading zeros
+                $countryNumber = (string)(int)$activity['country'];
+
+                return [
+                    'title' => $activity['title'],
+                    'country' => [
+                        $countryNumber => [
+                            'id' => $countryCode,
+                            'name' => Countries::COUNTRIES[$countryCode] ?? 'Unknown',
+                            'info' => $activity['description']
+                        ]
+                    ],
+                    'description' => $activity['description']
+                ];
+            });
+
             $data = [
                 'id' => $professor->id,
                 'name' => $professor->name,
@@ -51,7 +72,7 @@ class ProfessorController
                 'education' => $professor->education,
                 'experience' => $professor->experience,
                 'skills' => $professor->skills,
-                'activities' => $professor->activities,
+                'activities' => $activities,
             ];
             return $this->successResponse(["data" => $data]);
         } catch (\Exception $e) {
