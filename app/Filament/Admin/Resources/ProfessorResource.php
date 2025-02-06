@@ -91,7 +91,7 @@ class ProfessorResource extends Resource
                                                 Textarea::make('profile_details')
                                                     ->label('Détails du profil')
                                                     ->nullable()
-                                                    ->rows(3)
+                                                    ->rows(5)
                                                     ->columnSpanFull(),
                                                 Textarea::make('bio')
                                                     ->label('Biographie')

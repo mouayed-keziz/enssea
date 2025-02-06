@@ -87,11 +87,19 @@ class ProfessorResource extends Resource
                                                     ->visibleOn("create")
                                                     ->required()
                                                     ->columnSpan(['md' => 4]),
+                                                TextInput::make('profile_headline')
+                                                    ->label('Titre du profil')
+                                                    ->columnSpan(['md' => 4]),
                                             ])
                                             ->columns(4),
 
                                         Forms\Components\Grid::make()
                                             ->schema([
+                                                Textarea::make('profile_details')
+                                                    ->label('Détails du profil')
+                                                    ->nullable()
+                                                    ->rows(5)
+                                                    ->columnSpanFull(),
                                                 Textarea::make('bio')
                                                     ->label('Biographie')
                                                     ->nullable()
