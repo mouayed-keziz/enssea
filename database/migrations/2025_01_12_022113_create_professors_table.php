@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->rememberToken();
+            $table->string('profile_headline')->nullable();
+            $table->text('profile_details')->nullable();
             $table->text('bio')->nullable();
             $table->json('social_media')->nullable(); // Array of {provider, link}
             $table->json('education')->nullable(); // Array of {time, title, description}

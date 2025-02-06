@@ -35,6 +35,8 @@ class Professor extends Authenticatable implements HasMedia, FilamentUser, HasAv
         'password',
         'bio',
         'profession',
+        'profile_headline',
+        'profile_details',
         'social_media',
         'education',
         'experience',

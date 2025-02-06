@@ -39,7 +39,11 @@ Route::prefix('v1')->group(function () {
         ->description('Get paginated list of articles.')
         ->summary('List of articles');
 
-    Route::get('/articles/{slug}', [ArticleController::class, 'show'])
+    Route::get('/articles/{id}', [ArticleController::class, 'getById'])
+        ->description('Get article by ID.')
+        ->summary('Get article by ID');
+
+    Route::get('/articles/slug/{slug}', [ArticleController::class, 'show'])
         ->description('Get detailed information about a specific article.')
         ->summary('Single article details');
 
@@ -79,6 +83,6 @@ Route::prefix('v1')->group(function () {
 
     // Library routes
     Route::get('/library', [LibraryController::class, 'index'])
-        ->description('Get paginated list of articles and videos for the library. Has query params: q (search), articles_page, articles_per_page, videos_page, videos_per_page.')
+        ->description('Get paginated list of articles and videos for the library. Has query params: articles_q (articles search), videos_q (videos search), articles_page, articles_per_page, videos_page, videos_per_page.')
         ->summary('Library content');
 });

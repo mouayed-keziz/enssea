@@ -56,4 +56,26 @@ class ArticleController
             return $this->errorResponse('Article non trouvé');
         }
     }
+
+    public function getById($id)
+    {
+        try {
+            $article = Article::with(['professor', 'media'])->findOrFail($id);
+            return $this->successResponse([
+                'data' => [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'content' => $article->content,
+                    'slug' => $article->slug,
+                    'professor' => [
+                        'id' => $article->professor->id,
+                        'name' => $article->professor->name,
+                    ],
+                    'created_at' => $article->created_at,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Article non trouvé');
+        }
+    }
 }

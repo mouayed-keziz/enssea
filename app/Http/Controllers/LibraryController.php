@@ -14,7 +14,8 @@ class LibraryController
     public function index(Request $request)
     {
         try {
-            $search = $request->query('q', '');
+            $articlesSearch = $request->query('articles_q', '');
+            $videosSearch = $request->query('videos_q', '');
 
             // Pagination parameters for Articles
             $articlesPage = $request->query('articles_page', 1);
@@ -26,8 +27,8 @@ class LibraryController
 
             // Fetch paginated Articles with search
             $articlesPaginated = Article::with('professor')
-                ->when($search, function ($query) use ($search) {
-                    $query->where('title', 'like', "%{$search}%");
+                ->when($articlesSearch, function ($query) use ($articlesSearch) {
+                    $query->where('title', 'like', "%{$articlesSearch}%");
                 })
                 ->paginate($articlesPerPage, ['*'], 'articles_page', $articlesPage);
 
@@ -49,9 +50,9 @@ class LibraryController
 
             // Fetch paginated Videos with search
             $videosPaginated = Video::with('professor')
-                ->when($search, function ($query) use ($search) {
-                    $query->where('title', 'like', "%{$search}%")
-                        ->orWhere('description', 'like', "%{$search}%");
+                ->when($videosSearch, function ($query) use ($videosSearch) {
+                    $query->where('title', 'like', "%{$videosSearch}%")
+                        ->orWhere('description', 'like', "%{$videosSearch}%");
                 })
                 ->paginate($videosPerPage, ['*'], 'videos_page', $videosPage);
 

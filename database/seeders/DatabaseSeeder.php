@@ -28,7 +28,9 @@ class DatabaseSeeder extends Seeder
 
         Professor::factory()->withVideos(10)->withArticles(12)->withPublications(2)->withMedia()->create();
         Professor::factory()->withVideos(8)->withArticles(7)->withPublications(6)->withMedia()->create();
-        Professor::factory(3)->create();
+        Professor::factory()->withVideos(8)->withArticles(3)->withPublications(1)->withMedia()->create();
+        Professor::factory()->withVideos(0)->withArticles(2)->withPublications(5)->withMedia()->create();
+        // Professor::factory(3)->withMedia()->create();
 
         News::factory()->count(23)->withMedia()->create();
         Club::factory()->count(7)->withMedia()->create();

@@ -44,6 +44,8 @@ class ProfessorController
                 'email' => $professor->email,
                 'profile_picture' => $professor->profile_picture,
                 'cv_url' => $professor->cv_url,
+                'profile_headline' => $professor->profile_headline,
+                'profile_details' => $professor->profile_details,
                 'bio' => $professor->bio,
                 'social_media' => $professor->social_media,
                 'education' => $professor->education,
