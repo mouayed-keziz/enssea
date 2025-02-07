@@ -45,6 +45,7 @@ class ArticleController
                     'title' => $article->title,
                     'content' => $article->content,
                     'slug' => $article->slug,
+                    'image' => $article->image,
                     'professor' => [
                         'id' => $article->professor->id,
                         'name' => $article->professor->name,
@@ -67,6 +68,7 @@ class ArticleController
                     'title' => $article->title,
                     'content' => $article->content,
                     'slug' => $article->slug,
+                    'image' => $article->image,
                     'professor' => [
                         'id' => $article->professor->id,
                         'name' => $article->professor->name,
