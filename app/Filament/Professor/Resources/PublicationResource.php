@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use App\Filament\Professor\Navigation\Sidebar as NavigationSidebar;
+use Filament\Tables\Columns\ImageColumn;
 
 class PublicationResource extends Resource
 {
@@ -84,12 +85,16 @@ class PublicationResource extends Resource
                             ])
                             ->columnSpan(['lg' => 2]),
 
-                        Forms\Components\Section::make('Document PDF')
+                        Forms\Components\Section::make('Media')
                             ->schema([
                                 Forms\Components\SpatieMediaLibraryFileUpload::make('pdf')
                                     ->collection('pdf')
                                     ->acceptedFileTypes(['application/pdf'])
                                     ->required(),
+                                Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                                    ->collection('image')
+                                    ->image()
+                                    ->imageEditor(),
                             ])
                             ->columnSpan(['lg' => 1]),
                     ])
@@ -101,6 +106,10 @@ class PublicationResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label('Image')
+                    ->placeholder("Sans image")
+                    ->circular(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Titre')
                     ->searchable()
@@ -168,10 +177,14 @@ class PublicationResource extends Resource
                             ])
                             ->columnSpan(['lg' => 2]),
 
-                        Infolists\Components\Section::make('Document')
+                        Infolists\Components\Section::make('Media')
                             ->schema([
+                                Infolists\Components\SpatieMediaLibraryImageEntry::make('image')
+                                    ->label('Image')
+                                    ->placeholder('Aucune image')
+                                    ->collection('image'),
                                 Infolists\Components\TextEntry::make('pdf')
-                                    ->label('')
+                                    ->label('Document PDF')
                                     ->view('filament.infolists.components.pdf-viewer', [
                                         'collection' => 'pdf'
                                     ]),

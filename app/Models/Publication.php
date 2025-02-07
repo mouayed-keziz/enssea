@@ -36,6 +36,8 @@ class Publication extends Model implements HasMedia
         $this->addMediaCollection('pdf')
             ->acceptsMimeTypes(['application/pdf'])
             ->singleFile();
+        $this->addMediaCollection('image')
+            ->singleFile();
     }
 
     public function getPdfAttribute()
@@ -46,5 +48,10 @@ class Publication extends Model implements HasMedia
     public function getRecordTitleAttribute(): string
     {
         return "Publication: {$this->title}";
+    }
+
+    public function getImageAttribute()
+    {
+        return $this->hasMedia('image') ? $this->getFirstMediaUrl('image') : null;
     }
 }

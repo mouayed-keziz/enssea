@@ -26,8 +26,16 @@ class PublicationFactory extends Factory
             try {
                 $publication->addMediaFromUrl('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf')
                     ->toMediaCollection('pdf');
+
+                $publication->addMediaFromUrl('https://source.unsplash.com/random/800x600')
+                    ->toMediaCollection('image');
             } catch (\Exception $e) {
-                // If PDF fetch fails, skip attachment
+                try {
+                    $publication->addMediaFromUrl('https://picsum.photos/800/600')
+                        ->toMediaCollection('image');
+                } catch (\Exception $e) {
+                    // If both image sources fail, skip attachment
+                }
             }
         });
     }
