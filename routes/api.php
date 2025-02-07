@@ -31,6 +31,10 @@ Route::prefix('v1')->group(function () {
         ->description('Get paginated list of publications.')
         ->summary('List of publications');
 
+    Route::get('/publications/{id}', [PublicationController::class, 'show'])
+        ->description('Get detailed information about a specific publication.')
+        ->summary('Single publication details');
+
     Route::get('/videos', [VideoController::class, 'index'])
         ->description('Get paginated list of videos.')
         ->summary('List of videos');

@@ -120,6 +120,7 @@ class ProfessorController
                     'title' => $publication->title,
                     'description' => $publication->description,
                     'type' => $publication->type,
+                    'image' => $publication->image,
                     'pdf_url' => $publication->pdf,
                 ];
             });
