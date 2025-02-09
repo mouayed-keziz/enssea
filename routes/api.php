@@ -87,6 +87,6 @@ Route::prefix('v1')->group(function () {
 
     // Library routes
     Route::get('/library', [LibraryController::class, 'index'])
-        ->description('Get paginated list of articles and videos for the library. Has query params: articles_q (articles search), videos_q (videos search), articles_page, articles_per_page, videos_page, videos_per_page.')
+        ->description('Get paginated list of articles, videos, and publications for the library. Has query params: articles_q, articles_page, articles_per_page, videos_q, videos_page, videos_per_page, publications_q, publications_page, publications_per_page.')
         ->summary('Library content');
 });

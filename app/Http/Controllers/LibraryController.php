@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Video;
+use App\Models\Publication;
 use App\Traits\ApiResponse;
 
 class LibraryController
@@ -24,6 +25,11 @@ class LibraryController
             // Pagination parameters for Videos
             $videosPage = $request->query('videos_page', 1);
             $videosPerPage = $request->query('videos_per_page', 10);
+
+            // Pagination and search parameters for Publications
+            $publicationsSearch = $request->query('publications_q', '');
+            $publicationsPage = $request->query('publications_page', 1);
+            $publicationsPerPage = $request->query('publications_per_page', 10);
 
             // Fetch paginated Articles with search
             $articlesPaginated = Article::with('professor')
@@ -72,11 +78,36 @@ class LibraryController
             });
             $videosPaginated->setCollection($videosMapped);
 
+            // Fetch paginated Publications with search
+            $publicationsPaginated = Publication::with('professor')
+                ->when($publicationsSearch, function ($query) use ($publicationsSearch) {
+                    $query->where('title', 'like', "%{$publicationsSearch}%");
+                })
+                ->paginate($publicationsPerPage, ['*'], 'publications_page', $publicationsPage);
+
+            // Map Publications collection
+            $publicationsMapped = $publicationsPaginated->getCollection()->map(function ($publication) {
+                return [
+                    'id' => $publication->id,
+                    'title' => $publication->title,
+                    'description' => $publication->description,
+                    'type' => $publication->type,
+                    'professor' => [
+                        'id' => $publication->professor->id,
+                        'name' => $publication->professor->name,
+                    ],
+                    'image' => $publication->image,
+                    'pdf_url' => $publication->pdf,
+                ];
+            });
+            $publicationsPaginated->setCollection($publicationsMapped);
+
             // Return combined response using successResponse
             return $this->successResponse([
                 'data' => [
                     'articles' => $articlesPaginated->toArray(),
                     'videos' => $videosPaginated->toArray(),
+                    'publications' => $publicationsPaginated->toArray(),
                 ]
             ]);
         } catch (\Exception $e) {
