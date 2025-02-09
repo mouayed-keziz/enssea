@@ -15,6 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Admin\Navigation\Sidebar;
 
 class LevelResource extends Resource
 {
@@ -25,8 +26,10 @@ class LevelResource extends Resource
     protected static ?string $pluralLabel = 'Niveaux';
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static bool $isGloballySearchable = true;
+    protected static ?int $navigationSort = Sidebar::LEVEL['sort'];
+    protected static ?string $navigationGroup = Sidebar::LEVEL['group'];
 
+    protected static bool $isGloballySearchable = true;
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'cycle'];
