@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('professor_id')
                   ->constrained('professors')
                   ->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

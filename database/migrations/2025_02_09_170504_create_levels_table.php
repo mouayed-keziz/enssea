@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->enum('cycle', ['cycle preparatoire', 'cycle superieurs']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
