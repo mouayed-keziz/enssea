@@ -50,7 +50,7 @@ class SubjectController
                             'professor' => [
                                 'id'            => $subject->professor->id,
                                 'name'          => $subject->professor->name,
-                                'profile_image' => $subject->professor->profile_image,
+                                'profile_image' =>  $subject->professor->hasMedia('profile_picture') ? $subject->professor->getFirstMediaUrl('profile_picture') : null,
                             ],
                         ];
                     }),
