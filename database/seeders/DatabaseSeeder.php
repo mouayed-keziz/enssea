@@ -28,21 +28,21 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        Professor::factory()->withVideos(10)->withArticles(12)->withPublications(2)->create();
-        Professor::factory()->withVideos(8)->withArticles(7)->withPublications(6)->create();
-        Professor::factory()->withVideos(8)->withArticles(3)->withPublications(1)->create();
-        Professor::factory()->withVideos(0)->withArticles(2)->withPublications(5)->create();
+        Professor::factory()->withVideos(10)->withArticles(12)->withPublications(2)->withMedia()->create();
+        Professor::factory()->withVideos(8)->withArticles(7)->withPublications(6)->withMedia()->create();
+        Professor::factory()->withVideos(8)->withArticles(3)->withPublications(1)->withMedia()->create();
+        Professor::factory()->withVideos(0)->withArticles(2)->withPublications(5)->withMedia()->create();
         // Professor::factory(3)->withMedia()->create();
 
-        News::factory()->count(23)->create();
-        Club::factory()->count(7)->create();
-        Sponsor::factory()->count(11)->create();
-        EventAnnouncement::factory(12)->create();
+        News::factory()->count(23)->withMedia()->create();
+        Club::factory()->count(7)->withMedia()->create();
+        Sponsor::factory()->count(11)->withMedia()->create();
+        EventAnnouncement::factory(12)->withMedia()->create();
 
         // Remove: Level::factory(5)->withSubjects(16)->create();
 
         // Create 2 specializations:
-        Specialization::factory()->withLevels(2)->create();
-        Specialization::factory()->withLevels(3)->create();
+        Specialization::factory()->withMedia()->withLevels(2)->create();
+        Specialization::factory()->withMedia()->withLevels(3)->create();
     }
 }
