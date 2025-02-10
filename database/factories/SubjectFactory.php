@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Professor;
+use App\Models\Subject;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Subject>
@@ -26,7 +27,7 @@ class SubjectFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (Article $article) {
+        return $this->afterCreating(function (Subject $article) {
             try {
                 $article->addMediaFromUrl('https://source.unsplash.com/random/800x600')
                     ->toMediaCollection('image');
