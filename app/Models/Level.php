@@ -10,7 +10,12 @@ class Level extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'cycle'];
+    protected $fillable = ['name', 'specialization_id'];
+
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class);
+    }
 
     public function subjects()
     {

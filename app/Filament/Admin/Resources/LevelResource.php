@@ -32,7 +32,11 @@ class LevelResource extends Resource
     protected static bool $isGloballySearchable = true;
     public static function getGloballySearchableAttributes(): array
     {
-        return ['name', 'cycle'];
+        return ['name', 'spacialization.name'];
+    }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 
     public static function form(Form $form): Form
@@ -45,9 +49,10 @@ class LevelResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->label('Nom')
                             ->required(),
-                        Forms\Components\Select::make('cycle')
-                            ->label('Cycle')
-                            ->options(LevelCycle::class)
+                        Forms\Components\Select::make('specialization_id')
+                            ->label('Spécialisation')
+                            ->native(false)
+                            ->relationship('specialization', 'name')
                             ->required(),
                     ])
                     ->columnSpan(['lg' => 2]),
@@ -56,10 +61,10 @@ class LevelResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Créé le')
-                            ->content(fn (?Level $record): string => $record ? $record->created_at->format('d/m/Y H:i') : '-'),
+                            ->content(fn(?Level $record): string => $record ? $record->created_at->format('d/m/Y H:i') : '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Modifié le')
-                            ->content(fn (?Level $record): string => $record ? $record->updated_at->format('d/m/Y H:i') : '-'),
+                            ->content(fn(?Level $record): string => $record ? $record->updated_at->format('d/m/Y H:i') : '-'),
                     ])
                     ->columnSpan(['lg' => 1]),
             ])
@@ -73,8 +78,9 @@ class LevelResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nom')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('cycle')
-                    ->label('Cycle')
+                Tables\Columns\TextColumn::make('specialization.name')
+                    ->label('Specialisation')
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -87,14 +93,17 @@ class LevelResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('specialization_id')
+                    ->label('Spécialisation')
+                    ->relationship('specialization', 'name'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Voir'),
                 Tables\Actions\EditAction::make()->label('Modifier'),
                 Tables\Actions\Action::make('subjects')
-                    ->label('Matières')
+                    ->label('Modules')
                     ->icon('heroicon-o-book-open')
-                    ->url(fn ($record) => "/admin/levels/{$record->id}/subjects")
+                    ->url(fn($record) => "/admin/levels/{$record->id}/subjects")
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -107,11 +116,7 @@ class LevelResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-
-
-
-        ];
+        return [];
     }
 
     public static function getPages(): array
@@ -133,6 +138,3 @@ class LevelResource extends Resource
             ]);
     }
 }
-
-
-

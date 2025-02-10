@@ -22,7 +22,7 @@ class ArticleFactory extends Factory
         ];
     }
 
-    public function configure()
+    public function withMedia()
     {
         return $this->afterCreating(function (Article $article) {
             try {

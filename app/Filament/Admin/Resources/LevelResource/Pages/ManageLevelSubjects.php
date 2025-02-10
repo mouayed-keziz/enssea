@@ -19,11 +19,11 @@ class ManageLevelSubjects extends ManageRelatedRecords
     protected static string $resource = LevelResource::class;
     protected static string $relationship = 'subjects';
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $title = 'Matières';
+    protected static ?string $title = 'Modules';
 
     public static function getNavigationLabel(): string
     {
-        return 'Matières';
+        return 'Modules';
     }
 
 
@@ -32,7 +32,7 @@ class ManageLevelSubjects extends ManageRelatedRecords
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Information de la matière')
+                Forms\Components\Section::make('Information du module')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nom')
@@ -54,7 +54,7 @@ class ManageLevelSubjects extends ManageRelatedRecords
                 Forms\Components\Section::make('Image')
                     ->schema([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('image')
-                            ->label('Image de la matière')
+                            ->label('Image de la modules')
                             ->image()
                             ->collection('image')
                     ])
@@ -85,7 +85,7 @@ class ManageLevelSubjects extends ManageRelatedRecords
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Nouvelle matière'),
+                    ->label('Nouveau module'),
                 // Tables\Actions\AssociateAction::make(),
                 Tables\Actions\Action::make('view')
                     ->label('Retour aux niveaux')

@@ -14,7 +14,7 @@ class EditLevel extends EditRecord
     {
         return [
             Actions\Action::make('subjects')
-                ->label('Gérer les matières')
+                ->label('Gérer les modules')
                 ->icon('heroicon-o-book-open')
                 ->url(fn () => $this->getResource()::getUrl('subjects', ['record' => $this->getRecord()])),
             Actions\ViewAction::make(),

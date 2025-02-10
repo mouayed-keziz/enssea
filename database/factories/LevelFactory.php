@@ -19,7 +19,6 @@ class LevelFactory extends Factory
     {
         return [
             'name'  => $this->faker->word,
-            'cycle' => $this->faker->randomElement(['cycle preparatoire', 'cycle superieurs']),
         ];
     }
 

@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('levels', function (Blueprint $table) {
+        Schema::create('specializations', function (Blueprint $table) {
             $table->id();
-            // Add specialization_id foreign key
-            $table->foreignId('specialization_id')->constrained('specializations');
             $table->string('name');
             $table->softDeletes();
             $table->timestamps();
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('levels');
+        Schema::dropIfExists('specializations');
     }
 };

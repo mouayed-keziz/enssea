@@ -91,11 +91,12 @@ Route::prefix('v1')->group(function () {
         ->description('Get paginated list of articles, videos, and publications for the library. Has query params: articles_q, articles_page, articles_per_page, videos_q, videos_page, videos_per_page, publications_q, publications_page, publications_per_page.')
         ->summary('Library content');
 
-    // Subject routes
-    Route::get('/subjects', [SubjectController::class, 'index'])
-        ->description('Get list of subjects.')
-        ->summary('List of subjects');
-    Route::get('/subjects/paginated', [SubjectController::class, 'index2'])
-        ->description('Get paginated list of levels with subjects. Query parameters: per_page, page for levels; subjects_per_page, subjects_page for subjects.')
-        ->summary('Paginated subjects');
+    // Specialization routes
+    Route::get('/specializations', [SubjectController::class, 'getSpecializations'])
+        ->description('Get list of specializations with id, name, and image.')
+        ->summary('List of specializations');
+
+    Route::get('/specializations/{id}/levels', [SubjectController::class, 'getSpecializationLevels'])
+        ->description('Get specialization details with levels and subjects.')
+        ->summary('Specialization details');
 });

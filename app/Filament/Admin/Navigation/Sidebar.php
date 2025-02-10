@@ -33,8 +33,12 @@ class Sidebar
         'group' => 'Plateforme',
     ];
 
-    public const LEVEL = [
+    public const SPECIALIZATION = [
         'sort' => 6,
+        'group' => 'Plateforme',
+    ];
+    public const LEVEL = [
+        'sort' => 7,
         'group' => 'Plateforme',
     ];
 }
