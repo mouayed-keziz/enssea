@@ -96,7 +96,7 @@ return [
     | Whether Swagger is enabled or not.
     |
     */
-    "enable" => env('SWAGGER_ENABLED', true),
+    "enable" => env('SWAGGER_ENABLED', false),
 
     /*
     |--------------------------------------------------------------------------

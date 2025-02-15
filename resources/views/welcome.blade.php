@@ -30,9 +30,11 @@
                     <a href="{{ url('/professor') }}" class="btn btn-secondary">
                         Espace Professeur
                     </a>
-                    <a href="{{ url('/swagger/documentation') }}" class="btn btn-neutral">
-                        Swagger Documentation
-                    </a>
+                    @if (env('SWAGGER_ENABLED', false))
+                        <a href="{{ url('/swagger/documentation') }}" class="btn btn-neutral">
+                            Swagger Documentation
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
